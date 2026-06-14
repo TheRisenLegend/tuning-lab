@@ -1344,6 +1344,7 @@ export default function TuningLab() {
               </div>
             )}
 
+            {CATS.map((cat) => {
               const list = MODS[carId].filter((m) => m.cat === cat.id);
               if (!list.length) return null;
               const selCount = list.filter((m) => selSet.has(m.id)).length;
