@@ -5,7 +5,7 @@ export const CAR_PHOTOS = {
   a4b6: ["Audi A4 B6 Limousine.JPG", "Audi A4 B6 (2000\u20132004) front MJ.JPG"],
   tt8n: ["Audi TT 1.8T quattro 2000.jpg", "Audi TT coup\u00E9 (8N) front.JPG"],
   clk320: ["2004 Mercedes-Benz CLK 320 (C 209) Elegance coupe (2015-06-27) 01.jpg", "Mercedes-Benz CLK C209 black.jpg"],
-  i30nline: ["Hyundai i30 1.4 T-GDI Intro (III) \u2013 Frontansicht, 3. Juni 2017, D\u00FCsseldorf.jpg", "0 Hyundai i30 (PD) 1.jpg"],
+  i30nline: ["Hyundai i30 N Fastback (48672159966).jpg", "Hyundai i30 Fastback N.jpg"],
   fiesta: ["Ford Fiesta MK7 Sport 20090331 front.JPG", "Ford Fiesta MK7 front.JPG"],
   golf6: ["VW Golf 1.4 TSI Team (VI) \u2013 Frontansicht, 26. M\u00E4rz 2011, Ratingen.jpg", "VW Golf VI front 20100509.jpg"],
   sportsvan: ["VW Golf Sportsvan 1.6 TDI Comfortline.JPG", "Volkswagen Golf Sportsvan (2015) in denim blue in Wolfsburg.JPG"],

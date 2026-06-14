@@ -64,3 +64,18 @@ Die Fotos stammen von Wikimedia Commons (CC-Lizenzen, Links im Impressum unter
 „Bildnachweise"). Eigene Fotos? Einfach `public/img/<auto-id>.jpg` ersetzen —
 IDs: `a4b6, tt8n, clk320, i30nline, fiesta, golf6, sportsvan, bmw430`.
 Fehlt ein Bild, greift automatisch der Wikimedia-Hotlink, danach die Zeichnung.
+
+## Was ist neu (v2)
+
+- 8 Autos inkl. korrigiertem i30 Fastback N Line (2021) und BMW 430i xDrive
+- Favicon (Auto in Garage)
+- Leistungskurve (Dyno-Tab), Schnellstart-Presets, TÜV-Ampel, Leistungsgewicht & €/PS
+- Build teilen per Code **und** per Link (#build=…)
+- **Will it fit?** – Fitment- & Kompatibilitäts-Check (Felgen/Fahrwerk/Eintragung)
+- **CAN-Gauge-Planer** – Custom-Gauges & ESP32-Pinbelegung (im Footer)
+
+> Falls sich Auto-Fotos geändert haben: einmal `bash download-images.sh` erneut laufen lassen.
+
+## v3
+- Motor-Sound „Rev" (synthetisch, Web Audio – skaliert mit der Leistung)
+- Build-Galerie: kuratierte Beispiel-Builds zum Durchswipen & Laden (Button auf der Startseite)

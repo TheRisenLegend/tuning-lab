@@ -13,7 +13,7 @@ curl -L --fail -A "$UA" -o "public/img/tt8n.jpg" "https://commons.wikimedia.org/
 echo "-> clk320"
 curl -L --fail -A "$UA" -o "public/img/clk320.jpg" "https://commons.wikimedia.org/wiki/Special:FilePath/2004%20Mercedes-Benz%20CLK%20320%20%28C%20209%29%20Elegance%20coupe%20%282015-06-27%29%2001.jpg?width=900"
 echo "-> i30nline"
-curl -L --fail -A "$UA" -o "public/img/i30nline.jpg" "https://commons.wikimedia.org/wiki/Special:FilePath/Hyundai%20i30%201.4%20T-GDI%20Intro%20%28III%29%20%E2%80%93%20Frontansicht%2C%203.%20Juni%202017%2C%20D%C3%BCsseldorf.jpg?width=900"
+curl -L --fail -A "$UA" -o "public/img/i30nline.jpg" "https://commons.wikimedia.org/wiki/Special:FilePath/Hyundai%20i30%20N%20Fastback%20%2848672159966%29.jpg?width=900"
 echo "-> fiesta"
 curl -L --fail -A "$UA" -o "public/img/fiesta.jpg" "https://commons.wikimedia.org/wiki/Special:FilePath/Ford%20Fiesta%20MK7%20Sport%2020090331%20front.JPG?width=900"
 echo "-> golf6"

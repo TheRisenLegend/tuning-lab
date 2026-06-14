@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import {
   Gauge, MoveVertical, Paintbrush, Disc, Check, Dices, X,
   ChevronLeft, ScrollText, Info, Link2,
+  ShieldCheck, TriangleAlert, Cpu, Trash2, Plus, Volume2, Images,
 } from "lucide-react";
 
 import { IMPRESSUM } from "./impressum.js";
@@ -215,6 +216,141 @@ const css = `
 .tl-imprint .tl-sheetbody h4:first-child{margin-top:0;}
 .tl-imprint .tl-sheetbody p{margin:0; font-size:13px; line-height:1.65; color:var(--muted);}
 
+/* Stats-Leiste */
+.tl-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:16px;}
+@media (max-width:680px){ .tl-stats{grid-template-columns:1fr;} }
+.tl-stat{background:var(--panel); border:1px solid var(--line); border-radius:11px; padding:11px 13px; display:flex; flex-direction:column; gap:3px;}
+.tl-stat .k{font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--faint);}
+.tl-stat b{font-size:16px;}
+.tl-stat em{font-style:normal; color:var(--faint); font-size:12px;}
+.tl-faint{color:var(--faint);}
+
+/* Presets */
+.tl-presets{display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-top:16px;}
+.tl-presetlbl{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin-right:2px;}
+.tl-preset{display:flex; flex-direction:column; gap:1px; text-align:left; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:8px 14px; color:var(--text); font:inherit; cursor:pointer; transition:border-color .15s, transform .12s, background .15s;}
+.tl-preset:hover{border-color:var(--amber); transform:translateY(-1px); background:var(--panel-2);}
+.tl-preset em{font-style:normal; font-size:10.5px; color:var(--faint); letter-spacing:.02em;}
+
+/* TÜV-Badges in der Mod-Zeile */
+.tl-badge.tuev{display:inline-flex; align-items:center; gap:5px; background:transparent; border:1px solid var(--line);}
+.tl-badge.tuev .dot{width:7px; height:7px; border-radius:50%;}
+.tl-badge.tuev.pflicht{color:#f0a35e;} .tl-badge.tuev.pflicht .dot{background:#e8843a;}
+.tl-badge.tuev.abe{color:#e3c766;} .tl-badge.tuev.abe .dot{background:#d8b53f;}
+.tl-badge.tuev.frei{color:#7fc08a;} .tl-badge.tuev.frei .dot{background:#56b06a;}
+
+/* TÜV-Block in der Summary-Bar */
+.tl-sumtuev{display:flex; flex-direction:column; gap:3px; padding-left:14px; margin-left:2px; border-left:1px solid var(--line);}
+.tl-sumtuev .t{display:inline-flex; align-items:center; gap:6px; font-size:11px; color:var(--muted); white-space:nowrap;}
+.tl-sumtuev .dot{width:7px; height:7px; border-radius:50%;}
+.tl-sumtuev .pflicht .dot{background:#e8843a;} .tl-sumtuev .abe .dot{background:#d8b53f;} .tl-sumtuev .frei .dot{background:#56b06a;}
+@media (max-width:880px){ .tl-sumtuev{display:none;} }
+
+/* Dyno-Diagramm */
+.tl-dyno{width:100%;}
+.tl-dyno svg{width:100%; height:auto; display:block; background:var(--bg); border:1px solid var(--line); border-radius:11px;}
+.tl-dynolbl{fill:var(--faint); font-size:10px; font-family:'IBM Plex Mono',monospace;}
+.tl-dynoax{fill:var(--muted); font-size:10px; letter-spacing:.05em;}
+.tl-dynonm{fill:var(--steel);}
+.tl-dynopeak{fill:var(--amber); font-size:11px; font-weight:700; font-family:'IBM Plex Mono',monospace;}
+.tl-dynolegend{display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-top:9px; font-size:11.5px; color:var(--muted);}
+.tl-dynolegend .ln{display:inline-block; width:16px; height:0; border-top-width:3px; border-top-style:solid; vertical-align:middle; margin-right:6px;}
+.tl-dynolegend .ln.amber{border-color:var(--amber);}
+.tl-dynolegend .ln.grey{border-color:#6b7280;}
+.tl-dynolegend .ln.blue{border-color:var(--steel); border-top-style:dashed;}
+.tl-dynogain{margin-left:auto; color:var(--amber); font-weight:700; font-family:'IBM Plex Mono',monospace;}
+.tl-dynonote{font-size:10.5px; color:var(--faint); margin-top:5px; font-style:italic;}
+
+/* TÜV-Block im Build Sheet */
+.tl-sheettuev{border-top:1px dashed var(--line); margin-top:14px; padding-top:12px;}
+.tl-sheettuev .lbl{font-size:11px; color:var(--faint); text-transform:uppercase; letter-spacing:.08em;}
+.tl-sheettuev .row{display:flex; flex-wrap:wrap; gap:14px; margin-top:7px;}
+.tl-sheettuev .t{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--muted);}
+.tl-sheettuev .dot{width:8px; height:8px; border-radius:50%;}
+.tl-sheettuev .pflicht .dot{background:#e8843a;} .tl-sheettuev .abe .dot{background:#d8b53f;} .tl-sheettuev .frei .dot{background:#56b06a;}
+
+/* Will it fit? – Fitment-Panel */
+.tl-fit{margin-top:16px; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:13px 15px;}
+.tl-fithead{display:flex; align-items:center; gap:8px; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--amber); margin-bottom:9px;}
+.tl-fitrow{display:flex; gap:9px; align-items:flex-start; font-size:12.5px; line-height:1.55; color:var(--muted); padding:6px 0; border-top:1px solid var(--line);}
+.tl-fitrow:first-of-type{border-top:none;}
+.tl-fitrow b{color:var(--text);}
+.tl-fitrow svg{flex:none; margin-top:2px;}
+.tl-fitrow.ok{color:#7fc08a;} .tl-fitrow.ok svg{color:#56b06a;}
+.tl-fitrow.warn svg{color:#e8843a;}
+.tl-fitrow.info svg{color:var(--steel);}
+
+/* Gauge-Planer */
+.tl-gauge .tl-sheetbody{max-width:none;}
+.tl-gaugeintro{margin:0 0 16px; font-size:13px; line-height:1.6; color:var(--muted);}
+.tl-gaugesub{font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:var(--faint); margin:18px 0 8px;}
+.tl-gaugecan{background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:12px 14px;}
+.tl-gaugecan.off{opacity:.7;}
+.tl-gaugecan .tl-gaugesub{margin-top:0;}
+.tl-canrow{display:flex; gap:14px; flex-wrap:wrap;}
+.tl-canrow label, .tl-gaugepin label{display:flex; flex-direction:column; gap:4px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--faint);}
+.tl-gauge select{background:var(--panel-2); border:1px solid var(--line); border-radius:8px; color:var(--text); padding:7px 9px; font:inherit; font-size:13px; outline:none;}
+.tl-gauge select:focus{border-color:var(--amber);}
+.tl-gaugehint{font-size:11.5px; color:var(--faint); margin-top:9px; line-height:1.5;}
+.tl-gaugelist{display:flex; flex-direction:column; gap:9px;}
+.tl-gaugeitem{background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:10px 12px;}
+.tl-gaugeitemtop{display:flex; gap:9px; align-items:center; flex-wrap:wrap;}
+.tl-gaugepick{flex:1; min-width:150px;}
+.tl-srcbadge{font-size:10.5px; padding:3px 8px; border-radius:999px; border:1px solid var(--line); white-space:nowrap;}
+.tl-srcbadge.can{color:var(--steel); border-color:rgba(143,176,232,.4);}
+.tl-srcbadge.analog{color:var(--amber); border-color:rgba(255,160,31,.4);}
+.tl-srcbadge.spi{color:#b89cf0; border-color:rgba(184,156,240,.4);}
+.tl-gaugepin{font-size:12px; color:var(--muted);}
+.tl-gaugepin.mono{font-family:'IBM Plex Mono',monospace; font-size:11.5px;}
+.tl-gaugedel{flex:none; background:transparent; border:1px solid var(--line); color:var(--faint); border-radius:8px; width:32px; height:32px; display:grid; place-items:center; cursor:pointer; transition:border-color .15s, color .15s;}
+.tl-gaugedel:hover{border-color:#c2273b; color:#e06a78;}
+.tl-gaugemeta{display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:7px; font-size:11.5px; color:var(--faint); line-height:1.5;}
+.tl-pinwarn{display:inline-flex; align-items:center; gap:5px; color:#e8843a;}
+.tl-addgauge{margin-top:11px; display:inline-flex; align-items:center; gap:7px; background:transparent; border:1px dashed var(--line-2); color:var(--text); border-radius:9px; padding:9px 15px; font:inherit; cursor:pointer; transition:border-color .15s, background .15s;}
+.tl-addgauge:hover{border-color:var(--amber); background:var(--panel-2);}
+.tl-gaugedupe{display:flex; align-items:center; gap:8px; margin-top:12px; font-size:12.5px; color:#e8843a; background:rgba(232,132,58,.08); border:1px solid rgba(232,132,58,.3); border-radius:9px; padding:9px 12px;}
+.tl-gaugelegend{margin-top:16px; padding-top:13px; border-top:1px dashed var(--line); font-size:12px; line-height:1.6; color:var(--muted);}
+.tl-gaugelegend b{display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-bottom:4px;}
+
+/* Rev-Sound-Button */
+.tl-powright{display:inline-flex; align-items:center; gap:10px;}
+.tl-revbtn{display:inline-flex; align-items:center; gap:5px; background:transparent; border:1px solid var(--line); color:var(--amber); border-radius:999px; padding:3px 10px; font:inherit; font-size:11px; letter-spacing:.04em; cursor:pointer; transition:border-color .15s, background .15s;}
+.tl-revbtn:hover{border-color:var(--amber); background:rgba(255,160,31,.1);}
+.tl-revbtn:active{transform:scale(.96);}
+
+/* Galerie-Banner (Startseite) */
+.tl-gallerybtn{display:flex; align-items:center; gap:13px; width:100%; text-align:left; margin-bottom:14px; background:linear-gradient(110deg, rgba(255,160,31,.1), rgba(143,176,232,.06)); border:1px solid var(--line-2); border-radius:13px; padding:13px 16px; color:var(--text); font:inherit; cursor:pointer; transition:border-color .15s, transform .12s;}
+.tl-gallerybtn:hover{border-color:var(--amber); transform:translateY(-1px);}
+.tl-gallerybtn svg{color:var(--amber); flex:none;}
+.tl-gallerybtn span{display:flex; flex-direction:column; gap:2px;}
+.tl-gallerybtn b{font-size:15px; font-family:'Saira Condensed',sans-serif; letter-spacing:.02em;}
+.tl-gallerybtn em{font-style:normal; font-size:12px; color:var(--faint);}
+
+/* Galerie-Modal */
+.tl-gal .tl-sheetbody{display:none;}
+.tl-galstage{position:relative; display:flex; align-items:center; gap:6px; padding:14px;}
+.tl-galnav{flex:none; width:38px; height:38px; border-radius:50%; display:grid; place-items:center; background:var(--panel-2); border:1px solid var(--line); color:var(--text); cursor:pointer; transition:border-color .15s, background .15s;}
+.tl-galnav:hover{border-color:var(--amber); color:var(--amber);}
+@media (max-width:560px){ .tl-galnav{position:absolute; top:50%; transform:translateY(-50%); z-index:2; opacity:.92;} .tl-galnav.left{left:6px;} .tl-galnav.right{right:6px;} }
+.tl-galcard{flex:1; min-width:0; background:var(--bg); border:1px solid var(--line); border-radius:13px; padding:16px; animation:tl-galin .25s ease;}
+@keyframes tl-galin{from{opacity:0; transform:translateX(8px);} to{opacity:1; transform:none;}}
+.tl-galart{background:linear-gradient(180deg, #0a0b0e, #111318); border:1px solid var(--line); border-radius:10px; padding:8px; margin-bottom:13px;}
+.tl-galtitle{font-size:21px; line-height:1.1;}
+.tl-galauthor{font-size:12px; color:var(--amber); margin-top:3px; letter-spacing:.02em;}
+.tl-galblurb{font-size:13px; color:var(--muted); line-height:1.55; margin:10px 0 13px;}
+.tl-galstats{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:13px;}
+.tl-galstats > div{background:var(--panel); border:1px solid var(--line); border-radius:9px; padding:8px 6px; text-align:center; display:flex; flex-direction:column; gap:2px;}
+.tl-galstats b{font-size:16px; line-height:1;}
+.tl-galstats b.gain{color:var(--amber);} .tl-galstats b.gain-nm{color:var(--steel);}
+.tl-galstats span{font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint);}
+.tl-galmods{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:15px;}
+.tl-galchip{font-size:11px; color:var(--muted); background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:4px 10px;}
+.tl-galload{width:100%; justify-content:center;}
+.tl-galdots{display:flex; justify-content:center; gap:7px; margin-top:4px;}
+.tl-galdot{width:8px; height:8px; border-radius:50%; background:var(--line-2); border:none; cursor:pointer; padding:0; transition:background .15s, transform .15s;}
+.tl-galdot.on{background:var(--amber); transform:scale(1.25);}
+.tl-galcount{text-align:center; font-size:11px; color:var(--faint); margin-top:8px;}
+
 @media print{
   body{background:#fff !important;}
   .tl-root > *:not(.tl-overlay){display:none !important;}
@@ -237,7 +373,7 @@ const CARS = [
     name: "Audi A4 B6",
     sub: "2.0 (ALT) · 2003 · Limousine",
     engine: "2.0 20V Sauger · 130 PS / 195 Nm",
-    basePS: 130, baseNM: 195, accel: 10.9,
+    basePS: 130, baseNM: 195, accel: 10.9, weight: 1345,
     body: "limo",
     note: "Den B6 gab\u2019s auch als 1.9 TDI (130 PS \u2013 der Chip-Liebling) und als 3.0 V6 (220 PS). Der 2.0 ist ein Saugmotor: Software bringt hier nur Feinschliff \u2013 die B6-Szene lebt von Fahrwerk, Felgen und cleanem Look.",
     flag: "Stance-Klassiker",
@@ -247,7 +383,7 @@ const CARS = [
     name: "Audi TT 8N",
     sub: "1.8T quattro · Coupé",
     engine: "1.8T 20V (APX) · 225 PS / 280 Nm",
-    basePS: 225, baseNM: 280, accel: 6.4,
+    basePS: 225, baseNM: 280, accel: 6.4, weight: 1395,
     body: "tt",
     note: "Der 1.8T 20V ist DER Tuner-Motor seiner \u00C4ra. Der APX ist die fr\u00FChe 225er-Version (1998\u20132000) mit K04-Lader \u2013 Hardware-Tuning identisch zum sp\u00E4teren BAM. Einziger Haken: das \u00E4ltere Steuerger\u00E4t (ME 3.8.5) \u2013 vorher kl\u00E4ren, ob der Tuner das kann.",
     flag: "Tuner-Liebling",
@@ -257,27 +393,27 @@ const CARS = [
     name: "Mercedes CLK 320 CDI",
     sub: "W209 · OM642 · Coupé",
     engine: "3.0 V6 Diesel · 224 PS / 510 Nm",
-    basePS: 224, baseNM: 510, accel: 6.7,
+    basePS: 224, baseNM: 510, accel: 6.7, weight: 1540,
     body: "clk",
     note: "Der OM642 ist ein Drehmoment-Monster \u2013 Tuning-Ziel ist hier Nm, nicht Drehzahl. Wichtig: DPF-Entfernung ist illegal (Betriebserlaubnis weg, T\u00DCV ade). Sauber hei\u00DFt: Kennfeld in Ma\u00DFen + gepflegter Filter.",
     flag: "Drehmoment-Fokus",
   },
   {
     id: "i30nline",
-    name: "Hyundai i30 N-Line",
-    sub: "1.5 T-GDI 48V · Hatchback",
-    engine: "1.5 T-GDI Mildhybrid · 160 PS / 253 Nm",
-    basePS: 160, baseNM: 253, accel: 8.9,
-    body: "hatch",
-    note: "Nicht verwechseln: N-Line ist die Sport-Optik-Variante mit 1.5 T-GDI \u2013 NICHT der 280-PS-i30 N. Die Szene ist entsprechend milder: etwas Software, Federn, Optik \u2013 fertig ist der schicke Daily.",
-    flag: "N-Line \u2260 i30 N",
+    name: "Hyundai i30 Fastback N Line",
+    sub: "PD Fastback \u00B7 Facelift 2021",
+    engine: "1.5 T-GDI 48V \u00B7 160 PS / 253 Nm",
+    basePS: 160, baseNM: 253, accel: 8.6, weight: 1380,
+    body: "fastback",
+    note: "Der Fastback gibt dem i30 das coup\u00E9hafte Flie\u00DFheck. N Line ist die Sport-Optik-Linie mit dem 1.5 T-GDI Mildhybrid \u2013 NICHT der 280-PS-i30 N. Die Szene bleibt entsprechend milder: etwas Software, Federn, Optik \u2013 fertig ist der schicke Daily.",
+    flag: "N Line \u2260 i30 N",
   },
   {
     id: "fiesta",
     name: "Ford Fiesta 1.6 TDCi",
     sub: "MK6 \u00B7 2009 \u00B7 Kleinwagen",
     engine: "1.6 TDCi Diesel \u00B7 90 PS / 212 Nm",
-    basePS: 90, baseNM: 212, accel: 12.3,
+    basePS: 90, baseNM: 212, accel: 12.3, weight: 1108,
     body: "mini",
     note: "Sparsamer Pendler mit Szene-Faktor: Der 1.6 TDCi nimmt Software dankbar an (+25 PS / +50 Nm). DPF bleibt drin \u2013 alles T\u00DCV-konform und alltagstauglich.",
     flag: "Budget-Diesel",
@@ -287,7 +423,7 @@ const CARS = [
     name: "VW Golf 6 1.4 TSI Team",
     sub: "Typ 5K \u00B7 2011 \u00B7 Sondermodell",
     engine: "1.4 TSI \u00B7 122 PS / 200 Nm",
-    basePS: 122, baseNM: 200, accel: 9.5,
+    basePS: 122, baseNM: 200, accel: 9.5, weight: 1255,
     body: "golf",
     note: "Sondermodell Team auf 1.4-TSI-Basis (bei VW hei\u00DFt der Motor TSI, nicht TFSI \u2013 das ist Audi). Mit Software und Ladeluftk\u00FChler ein ehrlicher kleiner GTI-Schreck.",
     flag: "Allrounder",
@@ -297,19 +433,19 @@ const CARS = [
     name: "VW Golf Sportsvan 2.0 TDI",
     sub: "\u201EGolf 7 Plus\u201C \u00B7 2014",
     engine: "2.0 TDI EA288 \u00B7 150 PS / 340 Nm",
-    basePS: 150, baseNM: 340, accel: 8.9,
+    basePS: 150, baseNM: 340, accel: 8.9, weight: 1480,
     body: "van",
     note: "Offiziell hei\u00DFt der \u201EGolf 7 Plus\u201C ab 2014 Sportsvan. Der EA288-TDI ist eine dankbare Software-Basis: +40 PS / +60 Nm \u2013 DPF bleibt nat\u00FCrlich drin.",
     flag: "Familien-Sleeper",
   },
   {
     id: "bmw430",
-    name: "BMW 430i Gran Coup\u00E9",
+    name: "BMW 430i xDrive Gran Coup\u00E9",
     sub: "F36 \u00B7 2017",
-    engine: "B48 2.0 Turbo \u00B7 252 PS / 350 Nm",
-    basePS: 252, baseNM: 350, accel: 5.9,
+    engine: "B48 2.0 Turbo \u00B7 252 PS / 350 Nm \u00B7 xDrive",
+    basePS: 252, baseNM: 350, accel: 5.5, weight: 1660,
     body: "gran",
-    note: "Der B48 hat viel Luft nach oben: Stage 2 mit Downpipe kratzt an der 320-PS-Marke. 200-Zellen-Kat und Eintragung sind Pflicht \u2013 sauber bleiben lohnt sich.",
+    note: "Der 430i f\u00E4hrt immer den B48 2.0-Turbo (252 PS) \u2013 die gr\u00F6\u00DFeren Sechszylinder hei\u00DFen 440i. Mit xDrive geht der Sprint dank Allrad-Traktion nochmal besser. Stage 2 mit Downpipe kratzt an 320 PS; 200-Zellen-Kat und Eintragung sind Pflicht.",
     flag: "Premium-Basis",
   },
 ];
@@ -614,6 +750,9 @@ function ModCard({ mod, allMods, on, onToggle }) {
             </span>
           ))}
           {mod.group && <span className="tl-badge grp">{GROUP_LABELS[mod.group]}</span>}
+          <span className={"tl-badge tuev " + tuevStatus(mod)} title={"T\u00DCV: " + TUEV_LABEL[tuevStatus(mod)]}>
+            <i className="dot" /> {tuevStatus(mod) === "pflicht" ? "Eintragung" : tuevStatus(mod) === "abe" ? "ABE" : "frei"}
+          </span>
         </div>
       )}
     </button>
@@ -622,7 +761,7 @@ function ModCard({ mod, allMods, on, onToggle }) {
 
 /* ---------------- Build Sheet ---------------- */
 
-function BuildSheet({ car, mods, totals, laborCost, installOn, buildCode, onCopyCode, onClose }) {
+function BuildSheet({ car, mods, totals, laborCost, installOn, buildCode, tuev, onCopyCode, onCopyLink, onClose }) {
   const date = new Intl.DateTimeFormat("de-DE", {
     day: "2-digit", month: "2-digit", year: "numeric",
   }).format(new Date());
@@ -707,10 +846,24 @@ function BuildSheet({ car, mods, totals, laborCost, installOn, buildCode, onCopy
                 <button className="tl-iconbtn tl-noprint" onClick={onCopyCode} title="Code kopieren">
                   Kopieren
                 </button>
+                {onCopyLink && (
+                  <button className="tl-iconbtn tl-noprint" onClick={onCopyLink} title="Teilbaren Link kopieren">
+                    Link
+                  </button>
+                )}
+              </div>
+            )}
+            {tuev && (tuev.pflicht + tuev.abe + tuev.frei) > 0 && (
+              <div className="tl-sheettuev">
+                <span className="lbl">Eintragung (grobe Orientierung)</span>
+                <div className="row">
+                  <span className="t pflicht"><i className="dot" />{tuev.pflicht} eintragungspflichtig</span>
+                  <span className="t abe"><i className="dot" />{tuev.abe}&times; ABE/klein</span>
+                  <span className="t frei"><i className="dot" />{tuev.frei}&times; frei</span>
+                </div>
               </div>
             )}
             <div className="tl-sheetfoot">
-              Konfiguriert am {date} &middot; Preise: ca.-Marktpreise DE, ohne {installOn ? "Eintragung" : "Einbau & Eintragung"}
               <br />
               Addierte Herstellerangaben &ndash; der Pr&uuml;fstand hat das letzte Wort.
             </div>
@@ -731,9 +884,24 @@ export default function TuningLab() {
   const [toast, setToast] = useState(null);
   const [installOn, setInstallOn] = useState(false);
   const [imprintOpen, setImprintOpen] = useState(false);
+  const [gaugeOpen, setGaugeOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
   const [codeInput, setCodeInput] = useState("");
   const [heroView, setHeroView] = useState("live");
   const toastTimer = React.useRef(null);
+
+  // Build aus geteiltem Link (#build=...) beim ersten Laden übernehmen
+  React.useEffect(() => {
+    const code = readBuildFromHash();
+    if (!code) return;
+    const res = decodeBuild(code);
+    if (res) {
+      setSelected((s) => ({ ...s, [res.carId]: res.ids }));
+      setCarId(res.carId);
+    }
+    // Hash entfernen, damit ein Reload nicht erneut überschreibt
+    try { history.replaceState(null, "", window.location.pathname); } catch (e) {}
+  }, []);
 
   const car = carId ? CARS.find((c) => c.id === carId) : null;
   const selSet = new Set(selected[carId] || []);
@@ -845,6 +1013,35 @@ export default function TuningLab() {
   const accelNew = car ? accelEstimate(car.accel, car.basePS, finalPS) : null;
   const buildCode = car && selCountTotal > 0 ? encodeBuild(carId, selected[carId]) : "";
 
+  // Leistungsgewicht (PS pro Tonne) Serie vs. getunt
+  const pwrBase = car && car.weight ? Math.round((car.basePS / car.weight) * 1000) : null;
+  const pwrNew = car && car.weight ? Math.round((finalPS / car.weight) * 1000) : null;
+  // Preis je gewonnenem PS
+  const psGain = car ? finalPS - car.basePS : 0;
+  const eurPerPS = psGain > 0 ? Math.round(totals.price / psGain) : null;
+
+  // TÜV-/Eintragungs-Übersicht der gewählten Teile
+  const tuevSummary = useMemo(() => {
+    const sum = { pflicht: 0, abe: 0, frei: 0 };
+    if (!carId) return sum;
+    const set = new Set(selected[carId] || []);
+    for (const m of MODS[carId]) if (set.has(m.id)) sum[tuevStatus(m)]++;
+    return sum;
+  }, [carId, selected, finalPS]);
+
+  const fitment = useMemo(
+    () => (carId ? fitmentChecks(carId, new Set(selected[carId] || [])) : []),
+    [carId, selected]
+  );
+
+  const applyPreset = (kind) => {
+    if (!carId) return;
+    const ids = buildPreset(carId, kind);
+    setSelected({ ...selected, [carId]: ids });
+    const p = PRESETS.find((x) => x.id === kind);
+    showToast("Preset \u201E" + (p ? p.label : kind) + "\u201C geladen \u2013 " + ids.length + " Teile");
+  };
+
   const resetBuild = () => {
     if (!carId) return;
     setSelected({ ...selected, [carId]: [] });
@@ -861,6 +1058,30 @@ export default function TuningLab() {
     } else {
       showToast("Kopieren nicht verf\u00FCgbar \u2013 Code bitte manuell markieren");
     }
+  };
+
+  const copyShareLink = () => {
+    if (!buildCode) return;
+    const url = buildShareUrl(buildCode);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(
+        () => showToast("Link kopiert \u2013 \u00F6ffnet exakt diesen Build \uD83D\uDD17"),
+        () => showToast("Kopieren blockiert \u2013 Link bitte manuell markieren")
+      );
+    } else {
+      showToast("Kopieren nicht verf\u00FCgbar");
+    }
+  };
+
+  const loadGalleryBuild = (b) => {
+    // über encode/decode säubern (requires & Gruppen-Exklusivität)
+    const res = decodeBuild(encodeBuild(b.car, b.ids)) || { carId: b.car, ids: b.ids };
+    setSelected({ ...selected, [res.carId]: res.ids });
+    setCarId(res.carId);
+    setGalleryOpen(false);
+    const c = CARS.find((x) => x.id === res.carId);
+    showToast("Build \u201E" + b.title + "\u201C geladen \u2013 " + (c ? c.name : res.carId));
+    window.scrollTo({ top: 0 });
   };
 
   const loadBuildCode = () => {
@@ -900,6 +1121,14 @@ export default function TuningLab() {
             <div className="tl-kicker tl-display" style={{ marginBottom: 10 }}>
               Schritt 1 &middot; Basis w&auml;hlen
             </div>
+            <button className="tl-gallerybtn" onClick={() => setGalleryOpen(true)}>
+              <Images size={18} />
+              <span>
+                <b>Build-Galerie</b>
+                <em>Beispiel-Builds aus der Szene durchswipen &amp; laden</em>
+              </span>
+              <ChevronLeft size={18} style={{ transform: "rotate(180deg)", marginLeft: "auto", opacity: 0.6 }} />
+            </button>
             <div className="tl-cargrid">
               {CARS.map((c) => (
                 <button
@@ -946,6 +1175,10 @@ export default function TuningLab() {
             </div>
             <footer className="tl-footer" style={{ marginTop: 22 }}>
               Privates Hobby-Projekt &middot; Preise = ca.-Marktwerte (DE) ohne Gew&auml;hr.{" "}
+              <button className="tl-linkbtn" onClick={() => setGalleryOpen(true)}>Build-Galerie</button>
+              {" \u00B7 "}
+              <button className="tl-linkbtn" onClick={() => setGaugeOpen(true)}>CAN-Gauge-Planer</button>
+              {" \u00B7 "}
               <button className="tl-linkbtn" onClick={() => setImprintOpen(true)}>Impressum &amp; Datenschutz</button>
             </footer>
           </>
@@ -972,6 +1205,12 @@ export default function TuningLab() {
                   >
                     Foto
                   </button>
+                  <button
+                    className={heroView === "dyno" ? "on" : ""}
+                    onClick={() => setHeroView("dyno")}
+                  >
+                    Leistung
+                  </button>
                 </div>
                 {heroView === "photo" ? (
                   <CarPhoto
@@ -985,12 +1224,16 @@ export default function TuningLab() {
                       </div>
                     }
                   />
+                ) : heroView === "dyno" ? (
+                  <DynoChart basePS={car.basePS} baseNM={car.baseNM} finalPS={finalPS} finalNM={finalNM} />
                 ) : (
                   <CarIllustration car={car} sel={selSet} />
                 )}
                 <div className="tl-silcap">
                   {heroView === "photo"
                     ? "Originalfoto (Serie) \u2013 deine Mods siehst du in der Live-Ansicht"
+                    : heroView === "dyno"
+                    ? "Leistungskurve \u2013 reagiert auf deine Motor-Mods"
                     : "Live-Ansicht \u2013 reagiert auf deine Auswahl"}
                 </div>
               </div>
@@ -1007,7 +1250,12 @@ export default function TuningLab() {
             <div className="tl-power">
               <div className="tl-powerlabels">
                 <span>Leistung</span>
-                <span>Vollausbau ca. {scale} PS</span>
+                <span className="tl-powright">
+                  <button className="tl-revbtn" onClick={() => revEngine(finalPS)} title="Kurz hochdrehen (synthetischer Sound)">
+                    <Volume2 size={13} /> Rev
+                  </button>
+                  Vollausbau ca. {scale} PS
+                </span>
               </div>
               <div className="tl-powertrack">
                 <div className="tl-powerbase" style={{ width: (car.basePS / scale) * 100 + "%" }} />
@@ -1032,7 +1280,70 @@ export default function TuningLab() {
               </div>
             </div>
 
-            {CATS.map((cat) => {
+            {(pwrNew || eurPerPS || car.weight) && (
+              <div className="tl-stats">
+                {pwrNew && (
+                  <div className="tl-stat">
+                    <span className="k">Leistungsgewicht</span>
+                    <b className="tl-mono">
+                      {pwrNew} PS/t
+                      {pwrBase && pwrNew !== pwrBase && (
+                        <em className="tl-mono"> &nbsp;(Serie {pwrBase})</em>
+                      )}
+                    </b>
+                  </div>
+                )}
+                {car.weight && (
+                  <div className="tl-stat">
+                    <span className="k">Leergewicht</span>
+                    <b className="tl-mono">{car.weight} kg</b>
+                  </div>
+                )}
+                {eurPerPS ? (
+                  <div className="tl-stat">
+                    <span className="k">Preis je Mehr-PS</span>
+                    <b className="tl-mono">{fmtEUR(eurPerPS)}/PS</b>
+                  </div>
+                ) : (
+                  <div className="tl-stat">
+                    <span className="k">Preis je Mehr-PS</span>
+                    <b className="tl-mono tl-faint">&ndash;</b>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="tl-presets">
+              <span className="tl-presetlbl tl-display">Schnellstart</span>
+              {PRESETS.map((p) => (
+                <button key={p.id} className="tl-preset" onClick={() => applyPreset(p.id)} title={p.hint}>
+                  {p.label}
+                  <em>{p.hint}</em>
+                </button>
+              ))}
+            </div>
+
+            {selCountTotal > 0 && (
+              <div className="tl-fit">
+                <div className="tl-fithead tl-display">
+                  <ShieldCheck size={15} /> Will it fit? &ndash; Fitment-Check
+                </div>
+                {fitment.length === 0 ? (
+                  <div className="tl-fitrow ok">
+                    <Check size={14} strokeWidth={3} />
+                    <span>Keine bekannten Konflikte bei dieser Kombination. Trotzdem gilt: ET, Reifenma\u00DF und Baujahr im Einzelfall pr\u00FCfen.</span>
+                  </div>
+                ) : (
+                  fitment.map((f, i) => (
+                    <div key={i} className={"tl-fitrow " + f.level}>
+                      {f.level === "warn" ? <TriangleAlert size={14} /> : <Info size={14} />}
+                      <span><b>{f.title}:</b> {f.text}</span>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+
               const list = MODS[carId].filter((m) => m.cat === cat.id);
               if (!list.length) return null;
               const selCount = list.filter((m) => selSet.has(m.id)).length;
@@ -1064,6 +1375,10 @@ export default function TuningLab() {
               Viele Umbauten sind eintragungspflichtig (ABE, Teilegutachten oder Einzelabnahme) &ndash;
               vor dem Schrauben kurz mit T&Uuml;V oder Tuner sprechen.
               <br />
+              <button className="tl-linkbtn" onClick={() => setGalleryOpen(true)}>Build-Galerie</button>
+              {" \u00B7 "}
+              <button className="tl-linkbtn" onClick={() => setGaugeOpen(true)}>CAN-Gauge-Planer</button>
+              {" \u00B7 "}
               <button className="tl-linkbtn" onClick={() => setImprintOpen(true)}>Impressum &amp; Datenschutz</button>
             </footer>
           </>
@@ -1089,6 +1404,19 @@ export default function TuningLab() {
               <b className="tl-mono">{finalPS} PS</b>
               <span>Endleistung</span>
             </div>
+            {selCountTotal > 0 && (
+              <div className="tl-sumtuev" title="Grobe Eintragungs-Einsch\u00E4tzung der gew\u00E4hlten Teile">
+                {tuevSummary.pflicht > 0 && (
+                  <span className="t pflicht"><i className="dot" />{tuevSummary.pflicht}&times; Eintragung</span>
+                )}
+                {tuevSummary.abe > 0 && (
+                  <span className="t abe"><i className="dot" />{tuevSummary.abe}&times; ABE</span>
+                )}
+                {tuevSummary.frei > 0 && (
+                  <span className="t frei"><i className="dot" />{tuevSummary.frei}&times; frei</span>
+                )}
+              </div>
+            )}
             <button className="tl-btn" disabled={selCountTotal === 0} onClick={() => setSheetOpen(true)}>
               <ScrollText size={17} /> Build Sheet
             </button>
@@ -1146,11 +1474,15 @@ export default function TuningLab() {
           installOn={installOn}
           buildCode={buildCode}
           onCopyCode={copyBuildCode}
+          onCopyLink={copyShareLink}
+          tuev={tuevSummary}
           onClose={() => setSheetOpen(false)}
         />
       )}
 
       {imprintOpen && <ImprintModal onClose={() => setImprintOpen(false)} />}
+      {gaugeOpen && <GaugePlannerModal onClose={() => setGaugeOpen(false)} />}
+      {galleryOpen && <GalleryModal onClose={() => setGalleryOpen(false)} onLoad={loadGalleryBuild} />}
     </div>
   );
 }
@@ -1420,9 +1752,10 @@ function ArtCLK({ sel }) {
 /* ---------- Hyundai i30 N-Line (Hatchback, Polar White) ---------- */
 function ArtI30({ sel }) {
   const drop = sel.has("i30-stx") ? 7 : sel.has("i30-eibach") ? 4 : 0;
+  /* Fastback: langes Dach + flach abfallendes Flie\u00DFheck bis zum Abschluss */
   const BODY =
-    "M18 84 L16 71 Q16 61 30 58 L66 52 Q71 51 75 47 L88 35 Q92 30 101 30 " +
-    "L168 30 Q175 30 178 34 L192 56 L235 59 Q245 61 245 71 L245 84 " +
+    "M18 84 L16 71 Q16 61 30 58 L66 52 Q71 51 75 47 L88 35 Q93 30 104 30 " +
+    "L150 30 Q174 31 198 45 Q220 55 236 59 Q245 61 245 71 L245 84 " +
     "L221 84 A23 23 0 0 1 175 84 L87 84 A23 23 0 0 1 41 84 Z";
   return (
     <svg viewBox="0 0 260 118" width="100%" role="img" aria-hidden="true">
@@ -1432,23 +1765,28 @@ function ArtI30({ sel }) {
         <path d={BODY} fill="url(#tl-paint-i30)" stroke="#7d8694" strokeWidth="1.4" strokeLinejoin="round" />
         <g clipPath="url(#tl-clip-i30)">
           <rect x="14" y="77" width="234" height="9" fill="rgba(0,0,0,.16)" />
-          <line x1="32" y1="63.5" x2="230" y2="60.5" stroke="rgba(255,255,255,.6)" strokeWidth="1" />
+          <line x1="32" y1="63.5" x2="232" y2="60.5" stroke="rgba(255,255,255,.6)" strokeWidth="1" />
         </g>
-        <path d="M164 27.5 L184 27.5 L181 31 L166 30.5 Z" fill="#1d2127" />
+        {/* vordere Seitenscheibe */}
         <path d="M79 49 L95 36.5 L120 36.5 L120 49 Z" fill="url(#tl-glassgrad)" />
-        <path d="M126 49 L126 36.5 L167 36.5 Q171 37.5 173 41.5 L177 49 Z"
+        {/* hintere Seitenscheibe \u2013 zieht ins Flie\u00DFheck */}
+        <path d="M126 49 L126 36.5 L150 36.5 Q170 37.5 188 49 Z"
           fill={sel.has("i30-tint") ? "#0b0f14" : "url(#tl-glassgrad)"} />
+        {/* Fastback-Heckscheibe (schr\u00E4g, folgt der Dachlinie) */}
+        <path d="M192 49 Q172 38 152 35.5 L150 33 Q176 33.5 200 47 Z" fill="#1d2127" opacity="0.55" />
         <path d="M81 48.5 L75 44.5 L81 43.5 Z" fill="url(#tl-paint-i30)" stroke="#7d8694" strokeWidth="0.8" />
         <rect x="112" y="56" width="6" height="1.7" rx="0.8" fill="rgba(0,0,0,.35)" />
         <rect x="146" y="55.5" width="6" height="1.7" rx="0.8" fill="rgba(0,0,0,.35)" />
+        {/* Frontgrill / Niere */}
         <path d="M17 58 L33 55.8 L33 60.5 L17.5 62 Z" fill="url(#tl-chrome)" stroke="#7d8694" strokeWidth="0.5" />
         <path d="M16.3 64.5 L21.5 64 L21.5 72.5 L16.9 73 Z" fill="#10141a" stroke="#2a3038" strokeWidth="0.7" />
         <line x1="16.6" y1="74.5" x2="21.5" y2="74.2" stroke="#c2273b" strokeWidth="1" />
         {sel.has("i30-splitter") && (
           <path d="M15.5 80.5 L36 81 L36 84 L16.3 84 Z" fill="#0b0d10" stroke="#23282f" strokeWidth="0.6" />
         )}
-        <path d="M186 36 L191 55 L187.5 55 L183 37.5 Z" fill={sel.has("i30-tint") ? "#0b0f14" : "url(#tl-glassgrad)"} />
-        <path d="M239 58.5 L245 60 L245 66 L239 65 Z" fill="url(#tl-redlight)" stroke="#6e211a" strokeWidth="0.5" />
+        {/* dezente Heckabriss-Kante am Ende der Fastback-Klappe */}
+        <path d="M232 57.5 L243 58.8 L243 56.3 L233 55 Z" fill="#171b21" stroke="#7d8694" strokeWidth="0.4" />
+        <path d="M239 59.5 L245 61 L245 66.5 L239 65.5 Z" fill="url(#tl-redlight)" stroke="#6e211a" strokeWidth="0.5" />
         <rect x="243" y="79" width="7.5" height="3.2" rx="1.6" fill="#3a414b" />
       </g>
       <Wheel cx={64} upgraded={sel.has("i30-wheels")} brake={sel.has("i30-discs")} />
@@ -1748,6 +2086,245 @@ function accelEstimate(base, basePS, finalPS) {
   return Math.round(t * 10) / 10;
 }
 
+/* ---------------- TÜV / Eintragungs-Einschätzung ----------------
+   Grobe Orientierung nach Teile-Art (deutscher Markt). KEINE Rechtsberatung
+   – im Zweifel entscheidet der Prüfer. Rückgabe: "pflicht" | "abe" | "frei". */
+function tuevStatus(mod) {
+  const n = (mod.name + " " + (mod.desc || "")).toLowerCase();
+  // Eintragungspflichtig: Leistungssteigerung & tragende/fahrwerksrelevante Teile
+  if (mod.cat === "motor") {
+    if (/stage|kennfeld|software|tuningbox|box|downpipe|kat|abgasanlage|esd|endschall|ladeluft|ansaug/.test(n))
+      return "pflicht";
+    return "frei"; // Pedalbox, Luftfilter, Schubumluftventil, DSG-Software
+  }
+  if (mod.cat === "fahrwerk") {
+    if (/gewinde|federn|tieferlegung/.test(n)) return "pflicht";
+    if (/spurplatten|distanz/.test(n)) return "pflicht";
+    return "frei"; // Domstrebe, Stahlflex
+  }
+  if (mod.cat === "optik") {
+    if (/felgen|leichtmetall|\d{2}\u2033|zoll/.test(n)) return "pflicht";
+    if (/t\u00F6nung|folier/.test(n)) return "frei"; // mit ABG/ABE eintragungsfrei
+    return "abe"; // Grill, Lippe, Spoiler: meist ABE oder kleine Eintragung
+  }
+  if (mod.cat === "bremsen") {
+    if (/stahlflex/.test(n)) return "frei";
+    return "frei"; // Tausch in Serienmaß
+  }
+  return "frei";
+}
+
+const TUEV_LABEL = {
+  pflicht: "eintragungspflichtig",
+  abe: "ABE / kleine Eintragung",
+  frei: "eintragungsfrei",
+};
+
+/* ---------------- Presets (Schnellkonfiguration) ----------------
+   Wählt je nach Ziel passende Mods aus dem Katalog des Autos. Greift nur auf
+   vorhandene IDs zu; fehlt etwas, wird es einfach übersprungen. */
+function buildPreset(carId, kind) {
+  const mods = MODS[carId] || [];
+  const has = (id) => mods.some((m) => m.id === id);
+  const pick = [];
+  const add = (id) => { if (has(id) && !pick.includes(id)) pick.push(id); };
+  const byKey = (re, cat) =>
+    mods.find((m) => (!cat || m.cat === cat) && re.test((m.name + " " + (m.desc || "")).toLowerCase()));
+  const addFirst = (re, cat) => { const m = byKey(re, cat); if (m) add(m.id); };
+
+  if (kind === "daily") {
+    // dezent: Stage 1 Software, milde Tieferlegung (Federn), Tönung
+    addFirst(/stage 1|kennfeld|map|s1/, "motor");
+    addFirst(/federn|pro-kit|eibach|h&r/, "fahrwerk");
+    addFirst(/t\u00F6nung/, "optik");
+  } else if (kind === "show") {
+    // Optik satt: Gewinde/Federn, Felgen, Grill/Lippe, Spoiler, Tönung
+    (byKey(/gewinde/, "fahrwerk") ? addFirst(/gewinde/, "fahrwerk") : addFirst(/federn/, "fahrwerk"));
+    addFirst(/felgen|leichtmetall|m-style|ultraleggera/, "optik");
+    addFirst(/grill|wabengrill|niere/, "optik");
+    addFirst(/lippe|splitter/, "optik");
+    addFirst(/spoiler|fl\u00FCgel/, "optik");
+    addFirst(/t\u00F6nung/, "optik");
+    addFirst(/spurplatten/, "fahrwerk");
+  } else if (kind === "track") {
+    // Leistung & Fahrwerk: Stage 2 (+Downpipe), Gewinde, Bremse, Felgen
+    if (byKey(/stage 2|s2/, "motor")) {
+      addFirst(/downpipe/, "motor");
+      addFirst(/stage 2|s2/, "motor");
+    } else {
+      addFirst(/stage 1|kennfeld|map|s1/, "motor");
+    }
+    addFirst(/ladeluft|fmic/, "motor");
+    addFirst(/gewinde/, "fahrwerk");
+    addFirst(/brems|greenstuff|yellowstuff|scheiben|bel\u00E4ge|ate|ebc/, "bremsen");
+    addFirst(/felgen|leichtmetall|ultraleggera|m-style/, "optik");
+  }
+  // requires-Ketten auflösen (z. B. Stage 2 braucht Downpipe)
+  const set = new Set(pick);
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const m of mods) {
+      if (set.has(m.id)) for (const r of m.requires || []) {
+        if (!set.has(r)) { set.add(r); changed = true; }
+      }
+    }
+  }
+  // Gruppen-Exklusivität (nur ein Mod je group)
+  const seen = {};
+  for (const m of mods) {
+    if (set.has(m.id) && m.group) {
+      if (seen[m.group]) set.delete(m.id);
+      else seen[m.group] = true;
+    }
+  }
+  return [...set];
+}
+
+const PRESETS = [
+  { id: "daily", label: "Daily Driver", hint: "dezent & alltagstauglich" },
+  { id: "show", label: "Show & Shine", hint: "max. Optik" },
+  { id: "track", label: "Track Tool", hint: "Leistung & Fahrwerk" },
+];
+
+/* ---------------- Will it fit? – Fitment- & Kompatibilitäts-Check ----------------
+   Regelbasierte Hinweise aus realer Schrauber-Erfahrung. KEINE Garantie:
+   ET, Reifenbreite und Baujahr-Details entscheiden im Einzelfall. */
+function fitmentChecks(carId, set) {
+  const out = [];
+  if (!carId) return out;
+  const mods = MODS[carId];
+  const sel = mods.filter((m) => set.has(m.id));
+  const txt = (m) => (m.name + " " + (m.desc || "")).toLowerCase();
+  const any = (re, cat) => sel.some((m) => (!cat || m.cat === cat) && re.test(txt(m)));
+
+  const wheels = any(/felgen|leichtmetall|ultraleggera|m-style|zoll|\u2033/, "optik");
+  const coil = any(/gewinde/, "fahrwerk");
+  const springs = any(/federn/, "fahrwerk");
+  const spacers = any(/spurplatten|distanz/, "fahrwerk");
+  const lowered = coil || springs;
+  const downpipe = any(/downpipe/, "motor");
+  const bigPower = (carId === "bmw430" && any(/stage 2/, "motor")) || any(/stage 2/, "motor");
+
+  // Reifen/Radlauf
+  if (wheels && coil)
+    out.push({ level: "warn", title: "Schleifen m\u00F6glich", text: "Gro\u00DFe Felgen + Gewindefahrwerk: an der Vorderachse kann der Reifen am Radlauf oder Federbein streifen. Auf passende Einpresstiefe (ET) und Reifenbreite achten \u2013 ggf. Kotfl\u00FCgel b\u00F6rdeln/ziehen." });
+  else if (wheels && spacers)
+    out.push({ level: "warn", title: "B\u00FCndig wird eng", text: "Felgen + Spurplatten r\u00FCcken den Reifen an die Radlaufkante. Passende ET w\u00E4hlen, sonst schleift es beim Einfedern." });
+  if (spacers && lowered)
+    out.push({ level: "info", title: "B\u00F6rdeln einplanen", text: "Spurplatten zusammen mit Tieferlegung erh\u00F6hen das Schleif-Risiko an der Hinterachse \u2013 im Zweifel Radlaufkante b\u00F6rdeln." });
+
+  // Auto-spezifische, belastbare Hinweise
+  if (carId === "tt8n" && wheels)
+    out.push({ level: "info", title: "8N-Fitment", text: "Audi TT 8N: 18\u2033 \u00FCblich auf ET32\u201342 mit 225/40 R18. Mehr Breite oder kleinere ET kann am Federbein streifen." });
+  if (carId === "a4b6" && coil)
+    out.push({ level: "info", title: "B6-Fahrwerk", text: "A4 B6: beim Gewindefahrwerk gleich die vorderen St\u00FCtz-/Domlager pr\u00FCfen \u2013 die sind im Alter oft m\u00FCde." });
+  if (carId === "clk320" && lowered)
+    out.push({ level: "info", title: "W209-Hinweis", text: "CLK W209: nach dem Tieferlegen Spur einstellen lassen \u2013 die Hinterachse reagiert empfindlich auf Sturz/Spur." });
+  if ((carId === "golf6" || carId === "sportsvan") && downpipe)
+    out.push({ level: "info", title: "EA-Motoren", text: "Bei Downpipe/Sportkat die Lambdasonden-Adaption und ggf. einen angepassten Softwarestand beachten, sonst Fehlerlampe." });
+
+  // Leistung vs. Antrieb
+  if (bigPower && carId !== "bmw430" && carId !== "a4b6" && carId !== "tt8n")
+    out.push({ level: "info", title: "Traktion", text: "Viel Drehmoment an der Vorderachse: ab Stage 2 helfen gute Reifen und ggf. ein Sperrdifferenzial, sonst scharrt's beim Rausbeschleunigen." });
+
+  return out;
+}
+
+/* ---------------- Motor-Sound (Web Audio, synthetisch) ----------------
+   Erzeugt einen kurzen, prozeduralen Hochdreh-Sound (kein Sample, keine Datei).
+   Tonhöhe/Aggressivität skalieren leicht mit der Leistung. */
+let _tlAudioCtx = null;
+function revEngine(finalPS) {
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    _tlAudioCtx = _tlAudioCtx || new AC();
+    const ctx = _tlAudioCtx;
+    if (ctx.state === "suspended") ctx.resume();
+    const now = ctx.currentTime;
+    const dur = 1.25;
+    const ps = finalPS || 200;
+
+    const master = ctx.createGain();
+    master.gain.value = 0.0001;
+    const filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    master.connect(filter);
+    filter.connect(ctx.destination);
+
+    const f0 = 68 + Math.min(55, (ps - 100) * 0.16);
+    const peak = f0 * (4.0 + Math.min(2.6, ps / 240));
+
+    [0, 0.4, -0.4, 0].forEach((det, i) => {
+      const o = ctx.createOscillator();
+      o.type = i === 3 ? "square" : "sawtooth";
+      o.detune.value = det * 13;
+      o.frequency.setValueAtTime(f0, now);
+      o.frequency.exponentialRampToValueAtTime(peak, now + 0.5);
+      o.frequency.exponentialRampToValueAtTime(peak * 0.9, now + 0.72);
+      o.frequency.exponentialRampToValueAtTime(f0 * 1.5, now + dur);
+      const g = ctx.createGain();
+      g.gain.value = i === 3 ? 0.1 : 0.42;
+      o.connect(g);
+      g.connect(master);
+      o.start(now);
+      o.stop(now + dur + 0.05);
+    });
+
+    filter.frequency.setValueAtTime(650, now);
+    filter.frequency.exponentialRampToValueAtTime(5200, now + 0.5);
+    filter.frequency.exponentialRampToValueAtTime(1500, now + dur);
+
+    master.gain.setValueAtTime(0.0001, now);
+    master.gain.exponentialRampToValueAtTime(0.5, now + 0.07);
+    master.gain.exponentialRampToValueAtTime(0.34, now + 0.7);
+    master.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+  } catch (e) {}
+}
+
+/* ---------------- Build-Galerie (kuratierte Beispiel-Builds) ----------------
+   Showcase-Konfigurationen zum Stöbern & Laden – nutzen echte Katalog-IDs. */
+const GALLERY = [
+  { id: "g-tt-track", car: "tt8n", title: "Nordschleifen-8N", author: "@tobi_quattro",
+    blurb: "Stage 2, Gewinde, gro\u00DFe Bremse \u2013 kompromisslos auf Rundenzeit.",
+    ids: ["tt-s2", "tt-dp", "tt-fmic", "tt-kwv3", "tt-brakes", "tt-flex", "tt-wheels", "tt-wing"] },
+  { id: "g-bmw-ab", car: "bmw430", title: "Autobahn-Stage 2", author: "@m_power_jonas",
+    blurb: "320 PS, Klappe, KW-Fahrwerk \u2013 Gran Coup\u00E9 f\u00FCr die linke Spur.",
+    ids: ["bmw-s2", "bmw-dp", "bmw-fmic", "bmw-esd", "bmw-kw", "bmw-wheels", "bmw-tint"] },
+  { id: "g-golf-gti", car: "golf6", title: "GTI-Schreck", author: "@vagszene_kev",
+    blurb: "Kleiner 1.4 TSI ganz gro\u00DF: Stage 1, LLK, tief und b\u00F6ser Grill.",
+    ids: ["g6-s1", "g6-fmic", "g6-stx", "g6-wheels", "g6-grill", "g6-esd", "g6-tint"] },
+  { id: "g-a4-clean", car: "a4b6", title: "Clean Daily B6", author: "@b6_marv",
+    blurb: "Dezent, tief, sauber \u2013 der Alltags-Audi mit Stil.",
+    ids: ["a4-map", "a4-hr", "a4-wheels", "a4-grill", "a4-tail"] },
+  { id: "g-clk-cruise", car: "clk320", title: "Boulevard-Cruiser", author: "@benz_sammy",
+    blurb: "Tieferlegung, gro\u00DFe R\u00E4der, dezenter Klang \u2013 entspannt gleiten.",
+    ids: ["clk-b12", "clk-wheels", "clk-lip"] },
+  { id: "g-i30-fast", car: "i30nline", title: "Daily Fastback", author: "@i30_lina",
+    blurb: "Sauberes N-Line-Setup: etwas Mehrdruck, tief, getintet.",
+    ids: ["i30-map", "i30-eibach", "i30-wheels", "i30-tint", "i30-splitter"] },
+  { id: "g-fie-budget", car: "fiesta", title: "Budget-Tiefflieger", author: "@fiesta_deniz",
+    blurb: "Beweist: g\u00FCnstig geht auch geil. Federn, Felgen, Frontlippe.",
+    ids: ["fie-map", "fie-eibach", "fie-wheels", "fie-lip", "fie-tint"] },
+  { id: "g-gsv-sleeper", car: "sportsvan", title: "Familien-Sleeper", author: "@papa_haldex",
+    blurb: "190 PS Diesel im Van \u2013 unscheinbar schnell, DSG-Map inklusive.",
+    ids: ["gsv-s1", "gsv-dsg", "gsv-hr", "gsv-esd", "gsv-tint"] },
+];
+
+/* ---------------- Build-Sharing per URL-Hash ---------------- */
+function readBuildFromHash() {
+  try {
+    const h = window.location.hash || "";
+    const m = h.match(/build=([^&]+)/);
+    return m ? decodeURIComponent(m[1]) : null;
+  } catch (e) { return null; }
+}
+function buildShareUrl(code) {
+  const base = window.location.origin + window.location.pathname;
+  return base + "#build=" + encodeURIComponent(code);
+}
+
 /* ---------------- Impressum ---------------- */
 
 function ImprintModal({ onClose }) {
@@ -1787,6 +2364,413 @@ function ImprintModal({ onClose }) {
             <h4 className="tl-display">Datenschutz (Kurzfassung)</h4>
             <p>Diese Seite setzt keine Cookies, nutzt kein Tracking und speichert keine personenbezogenen Daten. Alle Konfigurationen leben nur im Browser-Speicher der aktuellen Sitzung. Beim Hosting &uuml;ber GitHub Pages kann GitHub technisch bedingt Server-Logs (z. B. IP-Adressen) verarbeiten &ndash; Details in der Datenschutzerkl&auml;rung von GitHub.</p>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Schematische Leistungskurve (Dyno-Look) ----------
+   Kein echter Pruefstand-Plot: zwei stilisierte Kurven (Serie vs. getunt),
+   deren Hoehe mit PS/Nm skaliert. Dient der Veranschaulichung des Zugewinns. */
+function DynoChart({ basePS, baseNM, finalPS, finalNM }) {
+  const W = 560, H = 300;
+  const padL = 46, padR = 46, padT = 22, padB = 38;
+  const x0 = padL, x1 = W - padR, y0 = H - padB, y1 = padT;
+  const psMax = Math.max(finalPS, basePS) * 1.12;
+  const nmMax = Math.max(finalNM, baseNM) * 1.12;
+  const rpmMin = 1, rpmMax = 7;
+
+  const xAt = (rpm) => x0 + ((rpm - rpmMin) / (rpmMax - rpmMin)) * (x1 - x0);
+  const yPS = (ps) => y0 - (ps / psMax) * (y0 - y1);
+  const yNM = (nm) => y0 - (nm / nmMax) * (y0 - y1);
+
+  const psCurve = (peak) => {
+    const pts = [];
+    for (let r = rpmMin; r <= rpmMax + 0.001; r += 0.25) {
+      const t = (r - rpmMin) / (rpmMax - rpmMin);
+      const shape = Math.pow(Math.sin(Math.min(t / 0.82, 1) * Math.PI / 2), 1.35);
+      const droop = r > 5.8 ? (r - 5.8) * 0.05 : 0;
+      pts.push([xAt(r), yPS(Math.max(0, peak * (shape - droop)))]);
+    }
+    return pts;
+  };
+  const nmCurve = (peak) => {
+    const pts = [];
+    for (let r = rpmMin; r <= rpmMax + 0.001; r += 0.25) {
+      const rise = r < 2 ? (r - 1) / 1 : 1;
+      const bell = Math.exp(-Math.pow((r - 3.4) / 2.4, 2));
+      const v = Math.max(0, Math.min(1, r < 2 ? rise * 0.9 : 0.9 + bell * 0.1)) * (0.82 + bell * 0.18);
+      pts.push([xAt(r), yNM(Math.max(0, peak * v))]);
+    }
+    return pts;
+  };
+  const toPath = (pts) =>
+    pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+
+  const psBase = toPath(psCurve(basePS));
+  const psTune = toPath(psCurve(finalPS));
+  const nmTune = toPath(nmCurve(finalNM));
+  const gain = finalPS - basePS;
+
+  const yTicks = [];
+  for (let v = 0; v <= psMax; v += psMax > 350 ? 100 : 50) yTicks.push(v);
+
+  return (
+    <div className="tl-dyno">
+      <svg viewBox={"0 0 " + W + " " + H} width="100%" role="img" aria-label="Schematische Leistungskurve">
+        {yTicks.map((v) => (
+          <g key={v}>
+            <line x1={x0} y1={yPS(v)} x2={x1} y2={yPS(v)} stroke="#23262d" strokeWidth="1" />
+            <text x={x0 - 8} y={yPS(v) + 3} textAnchor="end" className="tl-dynolbl">{Math.round(v)}</text>
+          </g>
+        ))}
+        {[1, 2, 3, 4, 5, 6, 7].map((r) => (
+          <text key={r} x={xAt(r)} y={y0 + 16} textAnchor="middle" className="tl-dynolbl">{r}</text>
+        ))}
+        <text x={x0 - 8} y={y1 - 8} textAnchor="end" className="tl-dynoax">PS</text>
+        <text x={x1 + 8} y={y1 - 8} textAnchor="start" className="tl-dynoax tl-dynonm">Nm</text>
+        <text x={(x0 + x1) / 2} y={H - 6} textAnchor="middle" className="tl-dynoax">Drehzahl &times;1000 /min</text>
+
+        <path d={nmTune} fill="none" stroke="#8fb0e8" strokeWidth="2" strokeDasharray="5 4" opacity="0.85" />
+        <path d={psBase} fill="none" stroke="#6b7280" strokeWidth="2" />
+        <path d={psTune + " L" + x1 + " " + y0 + " L" + x0 + " " + y0 + " Z"} fill="rgba(255,160,31,.08)" stroke="none" />
+        <path d={psTune} fill="none" stroke="#ffa01f" strokeWidth="2.6" />
+
+        <circle cx={xAt(5.8)} cy={yPS(finalPS)} r="3.5" fill="#ffa01f" />
+        <text x={xAt(5.8)} y={yPS(finalPS) - 8} textAnchor="middle" className="tl-dynopeak">{finalPS} PS</text>
+      </svg>
+      <div className="tl-dynolegend">
+        <span><i className="ln amber" /> Getunt {finalPS} PS</span>
+        <span><i className="ln grey" /> Serie {basePS} PS</span>
+        <span><i className="ln blue" /> Drehmoment {finalNM} Nm</span>
+        {gain > 0 && <span className="tl-dynogain">+{gain} PS</span>}
+      </div>
+      <div className="tl-dynonote">Schematische Darstellung &ndash; kein echter Pr&uuml;fstandslauf.</div>
+    </div>
+  );
+}
+
+/* ============================================================
+   CAN-Gauge-Planer — Custom-Gauges & ESP32-Pinbelegung planen
+   Allgemeine, belastbare Infos (OBD-II-PIDs, ESP32-GPIO-Eigenschaften).
+   Planungshilfe, kein fahrzeugspezifisches ECU-Reverse-Engineering.
+   ============================================================ */
+
+const GAUGE_PRESETS = [
+  { id: "boost",    name: "Ladedruck",          unit: "bar",   src: "analog", pid: "0x0B (MAP)", hint: "3-Bar-MAP-Sensor 0\u20135 V \u2013 oder OBD-PID 0x0B \u00FCber CAN" },
+  { id: "oiltemp",  name: "\u00D6ltemperatur",   unit: "\u00B0C", src: "analog", pid: "0x5C",       hint: "Analoger NTC-Geber \u2013 oder OBD-PID 0x5C (falls unterst\u00FCtzt)" },
+  { id: "oilpress", name: "\u00D6ldruck",         unit: "bar",   src: "analog", pid: "\u2013",       hint: "Analoger Drucksensor 0\u20135 V / 0\u201310 bar (kein Standard-PID)" },
+  { id: "water",    name: "Wassertemperatur",    unit: "\u00B0C", src: "can",    pid: "0x05",       hint: "OBD-PID 0x05 \u00FCber CAN-Bus" },
+  { id: "iat",      name: "Ansaugtemperatur",    unit: "\u00B0C", src: "can",    pid: "0x0F",       hint: "OBD-PID 0x0F \u00FCber CAN-Bus" },
+  { id: "afr",      name: "AFR / Lambda",         unit: "\u03BB",  src: "analog", pid: "0x34",       hint: "Wideband-Controller 0\u20135 V (LSU 4.9) \u2013 oder OBD-PID 0x34" },
+  { id: "rpm",      name: "Drehzahl",             unit: "1/min", src: "can",    pid: "0x0C",       hint: "OBD-PID 0x0C \u00FCber CAN-Bus" },
+  { id: "volt",     name: "Bordspannung",         unit: "V",     src: "analog", pid: "0x42",       hint: "ADC + Spannungsteiler \u2013 oder OBD-PID 0x42" },
+  { id: "egt",      name: "Abgastemperatur",      unit: "\u00B0C", src: "spi",    pid: "\u2013",       hint: "Thermoelement Typ K + MAX31855 (SPI)" },
+];
+
+const SRC_LABEL = { can: "CAN / OBD-II", analog: "Analog (ADC)", spi: "SPI" };
+
+/* ESP32 (DevKit) GPIOs mit Eigenschaften:
+   io = nur Eingang, adc1/adc2 = ADC-Kanal, strap = Strapping-Pin, serial = USB-UART */
+const ESP32_PINS = [
+  { g: 2,  f: ["adc2", "strap"] }, { g: 4,  f: ["adc2"] },
+  { g: 5,  f: ["strap"] },        { g: 12, f: ["adc2", "strap"] },
+  { g: 13, f: ["adc2"] },         { g: 14, f: ["adc2"] },
+  { g: 15, f: ["adc2", "strap"] },{ g: 16, f: [] }, { g: 17, f: [] },
+  { g: 18, f: [] }, { g: 19, f: [] }, { g: 21, f: [] }, { g: 22, f: [] },
+  { g: 23, f: [] }, { g: 25, f: ["adc2"] }, { g: 26, f: ["adc2"] },
+  { g: 27, f: ["adc2"] }, { g: 32, f: ["adc1"] }, { g: 33, f: ["adc1"] },
+  { g: 34, f: ["adc1", "io"] }, { g: 35, f: ["adc1", "io"] },
+  { g: 36, f: ["adc1", "io"] }, { g: 39, f: ["adc1", "io"] },
+];
+const pinMeta = (g) => ESP32_PINS.find((p) => p.g === g) || { g, f: [] };
+
+/* prüft, ob ein Pin für einen Quellentyp taugt; gibt Warntext oder null */
+function pinIssue(gpio, srcType) {
+  if (gpio == null || gpio === "") return null;
+  const m = pinMeta(Number(gpio));
+  if (srcType === "analog") {
+    if (!m.f.includes("adc1") && !m.f.includes("adc2")) return "kein ADC-Pin";
+    if (m.f.includes("adc2")) return "ADC2 kollidiert mit WLAN \u2013 ADC1 (32\u201339) bevorzugen";
+  }
+  if (srcType === "spi" || srcType === "can") {
+    if (m.f.includes("io")) return "nur Eingang (kein Ausgang m\u00F6glich)";
+  }
+  if (m.f.includes("strap")) return "Strapping-Pin \u2013 nur mit Bedacht nutzen";
+  return null;
+}
+
+function GaugePlannerModal({ onClose }) {
+  const LS = "tl-gauges-v1";
+  const [canTx, setCanTx] = useState(5);
+  const [canRx, setCanRx] = useState(4);
+  const [rows, setRows] = useState([
+    { key: 1, preset: "boost", pin: 32 },
+    { key: 2, preset: "oiltemp", pin: 33 },
+  ]);
+  const nextKey = React.useRef(3);
+
+  // laden (falls vorhanden) – auf GitHub Pages persistent, im Sandbox-Preview egal
+  React.useEffect(() => {
+    try {
+      const raw = localStorage.getItem(LS);
+      if (raw) {
+        const d = JSON.parse(raw);
+        if (Array.isArray(d.rows)) { setRows(d.rows); nextKey.current = (d.rows.reduce((a, r) => Math.max(a, r.key), 0) || 0) + 1; }
+        if (d.canTx != null) setCanTx(d.canTx);
+        if (d.canRx != null) setCanRx(d.canRx);
+      }
+    } catch (e) {}
+    const h = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [onClose]);
+
+  const persist = (r, tx, rx) => {
+    try { localStorage.setItem(LS, JSON.stringify({ rows: r, canTx: tx, canRx: rx })); } catch (e) {}
+  };
+
+  const preset = (id) => GAUGE_PRESETS.find((g) => g.id === id) || GAUGE_PRESETS[0];
+
+  const update = (key, patch) => {
+    setRows((prev) => {
+      const next = prev.map((r) => (r.key === key ? { ...r, ...patch } : r));
+      persist(next, canTx, canRx);
+      return next;
+    });
+  };
+  const changePreset = (key, pid) => {
+    const p = preset(pid);
+    // bei CAN-Quelle keinen Pin nötig
+    update(key, { preset: pid, pin: p.src === "can" ? null : (rows.find((r) => r.key === key) || {}).pin ?? 32 });
+  };
+  const addRow = () => {
+    setRows((prev) => {
+      const next = [...prev, { key: nextKey.current++, preset: "water", pin: null }];
+      persist(next, canTx, canRx);
+      return next;
+    });
+  };
+  const removeRow = (key) => {
+    setRows((prev) => {
+      const next = prev.filter((r) => r.key !== key);
+      persist(next, canTx, canRx);
+      return next;
+    });
+  };
+  const setTx = (v) => { setCanTx(v); persist(rows, v, canRx); };
+  const setRx = (v) => { setCanRx(v); persist(rows, canTx, v); };
+
+  // genutzte Pins sammeln (für Doppelbelegungs-Warnung)
+  const usedPins = {};
+  const reg = (g, who) => { if (g == null || g === "") return; (usedPins[g] = usedPins[g] || []).push(who); };
+  reg(canTx, "CAN-TX"); reg(canRx, "CAN-RX");
+  rows.forEach((r) => { const p = preset(r.preset); if (p.src !== "can") reg(r.pin, p.name); });
+  const dupes = Object.entries(usedPins).filter(([, who]) => who.length > 1);
+
+  const needsCan = rows.some((r) => preset(r.preset).src === "can");
+
+  const pinOptions = (srcType) =>
+    ESP32_PINS
+      .filter((p) => (srcType === "analog" ? p.f.includes("adc1") || p.f.includes("adc2") : true))
+      .map((p) => p.g);
+
+  const exportJson = () => {
+    const data = {
+      board: "ESP32",
+      can: needsCan ? { tx: canTx, rx: canRx, transceiver: "SN65HVD230 / MCP2551", note: "TWAI-Controller, 500 kbit/s typ." } : null,
+      gauges: rows.map((r) => {
+        const p = preset(r.preset);
+        return { name: p.name, unit: p.unit, source: SRC_LABEL[p.src], pid: p.pid, pin: p.src === "can" ? "CAN-Bus" : "GPIO" + r.pin };
+      }),
+    };
+    const json = JSON.stringify(data, null, 2);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(json).then(
+        () => alert("Pinbelegung als JSON kopiert."),
+        () => {}
+      );
+    }
+  };
+
+  return (
+    <div className="tl-overlay" onClick={onClose}>
+      <div onClick={(e) => e.stopPropagation()} style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
+        <div className="tl-sheetactions">
+          <button className="tl-sheetclose" onClick={exportJson}><Cpu size={15} /> Als JSON kopieren</button>
+          <button className="tl-sheetclose" onClick={onClose}><X size={15} /> Schlie&szlig;en</button>
+        </div>
+        <div className="tl-sheet tl-gauge">
+          <div className="tl-sheethead">
+            <div className="brand tl-display">Tuning Lab</div>
+            <div className="tl-sheetcar tl-display">CAN-Gauge-Planer</div>
+          </div>
+          <div className="tl-sheetbody">
+            <p className="tl-gaugeintro">
+              Plane eigene Anzeigen f\u00FCr ein ESP32-Display: w\u00E4hle Messwerte, ihre Quelle (CAN-Bus / Analog / SPI)
+              und die GPIO-Pins. Der Planer warnt bei ungeeigneten Pins und merkt sich deine Belegung im Browser.
+            </p>
+
+            {/* CAN-Bus-Setup */}
+            <div className={"tl-gaugecan" + (needsCan ? "" : " off")}>
+              <div className="tl-gaugesub tl-display">CAN-Bus (TWAI)</div>
+              {needsCan ? (
+                <>
+                  <div className="tl-canrow">
+                    <label>CAN-TX
+                      <select value={canTx} onChange={(e) => setTx(Number(e.target.value))}>
+                        {ESP32_PINS.filter((p) => !p.f.includes("io")).map((p) => <option key={p.g} value={p.g}>GPIO{p.g}</option>)}
+                      </select>
+                    </label>
+                    <label>CAN-RX
+                      <select value={canRx} onChange={(e) => setRx(Number(e.target.value))}>
+                        {ESP32_PINS.map((p) => <option key={p.g} value={p.g}>GPIO{p.g}</option>)}
+                      </select>
+                    </label>
+                  </div>
+                  <div className="tl-gaugehint">Externer Transceiver n\u00F6tig (z.\u202FB. SN65HVD230 oder MCP2551), \u00FCblich 500\u202Fkbit/s. ODB-II-Stecker Pin 6 = CAN-H, Pin 14 = CAN-L.</div>
+                </>
+              ) : (
+                <div className="tl-gaugehint">Aktuell kein CAN-Messwert gew\u00E4hlt \u2013 Bus wird nicht ben\u00F6tigt.</div>
+              )}
+            </div>
+
+            {/* Gauges */}
+            <div className="tl-gaugesub tl-display">Anzeigen ({rows.length})</div>
+            <div className="tl-gaugelist">
+              {rows.map((r) => {
+                const p = preset(r.preset);
+                const issue = p.src === "can" ? null : pinIssue(r.pin, p.src);
+                return (
+                  <div key={r.key} className="tl-gaugeitem">
+                    <div className="tl-gaugeitemtop">
+                      <select className="tl-gaugepick" value={r.preset} onChange={(e) => changePreset(r.key, e.target.value)}>
+                        {GAUGE_PRESETS.map((g) => <option key={g.id} value={g.id}>{g.name} ({g.unit})</option>)}
+                      </select>
+                      <span className={"tl-srcbadge " + p.src}>{SRC_LABEL[p.src]}</span>
+                      {p.src === "can" ? (
+                        <span className="tl-gaugepin mono">CAN \u00B7 PID {p.pid}</span>
+                      ) : (
+                        <label className="tl-gaugepin">
+                          <select value={r.pin ?? ""} onChange={(e) => update(r.key, { pin: e.target.value === "" ? null : Number(e.target.value) })}>
+                            {pinOptions(p.src).map((g) => <option key={g} value={g}>GPIO{g}</option>)}
+                          </select>
+                        </label>
+                      )}
+                      <button className="tl-gaugedel" onClick={() => removeRow(r.key)} aria-label="Entfernen"><Trash2 size={15} /></button>
+                    </div>
+                    <div className="tl-gaugemeta">
+                      <span>{p.hint}</span>
+                      {issue && <span className="tl-pinwarn"><TriangleAlert size={12} /> {issue}</span>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button className="tl-addgauge" onClick={addRow}><Plus size={15} /> Anzeige hinzuf\u00FCgen</button>
+
+            {dupes.length > 0 && (
+              <div className="tl-gaugedupe">
+                <TriangleAlert size={14} />
+                <span>Doppelte Pin-Belegung: {dupes.map(([g, who]) => "GPIO" + g + " (" + who.join(" + ") + ")").join(", ")}</span>
+              </div>
+            )}
+
+            <div className="tl-gaugelegend">
+              <b className="tl-display">Pin-Hinweise</b>
+              <span>ADC1 = GPIO32\u201339 (analogtauglich, auch bei WLAN) \u00B7 ADC2 = WLAN-Konflikt \u00B7 GPIO34/35/36/39 = nur Eingang \u00B7 Strapping: 0/2/5/12/15.</span>
+            </div>
+            <div className="tl-dynonote">Planungshilfe \u2013 Pins frei konfigurierbar. Im Zweifel das Datenblatt deines Boards pr\u00FCfen.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   Build-Galerie — kuratierte Beispiel-Builds zum Durchswipen
+   ============================================================ */
+function GalleryModal({ onClose, onLoad }) {
+  const [idx, setIdx] = useState(0);
+  const touch = React.useRef({ x: 0, active: false });
+  const n = GALLERY.length;
+
+  const go = (d) => setIdx((i) => (i + d + n) % n);
+
+  React.useEffect(() => {
+    const h = (e) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowLeft") go(-1);
+      else if (e.key === "ArrowRight") go(1);
+    };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [onClose]);
+
+  const onTouchStart = (e) => { touch.current = { x: e.touches[0].clientX, active: true }; };
+  const onTouchEnd = (e) => {
+    if (!touch.current.active) return;
+    const dx = e.changedTouches[0].clientX - touch.current.x;
+    if (Math.abs(dx) > 45) go(dx < 0 ? 1 : -1);
+    touch.current.active = false;
+  };
+
+  const b = GALLERY[idx];
+  const car = CARS.find((c) => c.id === b.car);
+  const mods = MODS[b.car].filter((m) => b.ids.includes(m.id));
+  const ps = mods.reduce((a, m) => a + m.ps, 0);
+  const nm = mods.reduce((a, m) => a + m.nm, 0);
+  const price = mods.reduce((a, m) => a + m.price, 0);
+  const finalPS = car.basePS + ps;
+  const sel = new Set(b.ids);
+
+  return (
+    <div className="tl-overlay" onClick={onClose}>
+      <div onClick={(e) => e.stopPropagation()} style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
+        <div className="tl-sheetactions">
+          <button className="tl-sheetclose" onClick={onClose}><X size={15} /> Schlie&szlig;en</button>
+        </div>
+        <div className="tl-sheet tl-gal">
+          <div className="tl-sheethead">
+            <div className="brand tl-display">Tuning Lab</div>
+            <div className="tl-sheetcar tl-display">Build-Galerie</div>
+          </div>
+
+          <div className="tl-galstage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+            <button className="tl-galnav left" onClick={() => go(-1)} aria-label="Zur\u00FCck"><ChevronLeft size={22} /></button>
+
+            <div className="tl-galcard" key={b.id}>
+              <div className="tl-galart"><CarIllustration car={car} sel={sel} /></div>
+              <div className="tl-galtitle tl-display">{b.title}</div>
+              <div className="tl-galauthor">{b.author} &middot; {car.name}</div>
+              <p className="tl-galblurb">{b.blurb}</p>
+              <div className="tl-galstats">
+                <div><b className="tl-mono">{finalPS}</b><span>PS</span></div>
+                <div><b className="tl-mono gain">+{ps}</b><span>PS</span></div>
+                <div><b className="tl-mono gain-nm">+{nm}</b><span>Nm</span></div>
+                <div><b className="tl-mono">{fmtEUR(price)}</b><span>Teile</span></div>
+              </div>
+              <div className="tl-galmods">
+                {mods.map((m) => <span key={m.id} className="tl-galchip">{m.name}</span>)}
+              </div>
+              <button className="tl-btn tl-galload" onClick={() => onLoad(b)}>
+                <Check size={16} strokeWidth={3} /> Diesen Build laden
+              </button>
+            </div>
+
+            <button className="tl-galnav right" onClick={() => go(1)} aria-label="Weiter"><ChevronLeft size={22} style={{ transform: "rotate(180deg)" }} /></button>
+          </div>
+
+          <div className="tl-galdots">
+            {GALLERY.map((g, i) => (
+              <button key={g.id} className={"tl-galdot" + (i === idx ? " on" : "")} onClick={() => setIdx(i)} aria-label={"Build " + (i + 1)} />
+            ))}
+          </div>
+          <div className="tl-galcount tl-mono">{idx + 1} / {n}</div>
+          <div className="tl-dynonote" style={{ textAlign: "center" }}>Kuratierte Beispiel-Builds zum St\u00F6bern \u2013 swipe oder Pfeiltasten.</div>
         </div>
       </div>
     </div>

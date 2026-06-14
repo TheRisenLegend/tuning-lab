@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="13" fill="#15171c"/>
+  <!-- Garagen-Boden -->
+  <rect x="6" y="49" width="52" height="3" rx="1.5" fill="#2a2f38"/>
+  <!-- Garagen-Rahmen / Tor-Bogen -->
+  <path d="M8 50 V24 Q8 11 32 11 Q56 11 56 24 V50"
+        fill="none" stroke="#ffa01f" stroke-width="3" stroke-linecap="round"/>
+  <!-- Garagen-Tor-Lamellen (angedeutet, oben) -->
+  <line x1="14" y1="20" x2="50" y2="20" stroke="#3a414b" stroke-width="1.6"/>
+  <line x1="12" y1="25" x2="52" y2="25" stroke="#3a414b" stroke-width="1.6"/>
+  <!-- Auto-Karosserie -->
+  <path d="M15 47 L14 40 Q14 37 18 36 L25 35 Q27 34 29 32 L34 28 Q36 27 39 27
+           L46 27 Q49 27 50 30 L52 36 Q55 37 55 40 L55 47
+           L50 47 A4.4 4.4 0 0 1 41.2 47 L24.8 47 A4.4 4.4 0 0 1 16 47 Z"
+        fill="#8fb0e8"/>
+  <!-- Seitenscheiben -->
+  <path d="M30 36 L34.5 30 L39 30 L39 36 Z" fill="#0d0e11" opacity="0.55"/>
+  <path d="M41 36 L41 30 L45.5 30 Q48 31 48.5 36 Z" fill="#0d0e11" opacity="0.55"/>
+  <!-- Räder -->
+  <circle cx="20.4" cy="47" r="4.4" fill="#0d0e11"/>
+  <circle cx="20.4" cy="47" r="1.7" fill="#5b6470"/>
+  <circle cx="45.6" cy="47" r="4.4" fill="#0d0e11"/>
+  <circle cx="45.6" cy="47" r="1.7" fill="#5b6470"/>
+  <!-- Scheinwerfer -->
+  <rect x="52.5" y="38.5" width="2.8" height="2.2" rx="1" fill="#fff4d6"/>
+</svg>
