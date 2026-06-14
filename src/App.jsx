@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import {
   Gauge, MoveVertical, Paintbrush, Disc, Check, Dices, X,
   ChevronLeft, ScrollText, Info, Link2,
-  ShieldCheck, TriangleAlert, Cpu, Trash2, Plus, Volume2, Images,
+  ShieldCheck, TriangleAlert, Cpu, Trash2, Plus, Volume2, Images, Wrench, TrendingUp,
 } from "lucide-react";
 
 import { IMPRESSUM } from "./impressum.js";
@@ -351,6 +351,58 @@ const css = `
 .tl-galdot.on{background:var(--amber); transform:scale(1.25);}
 .tl-galcount{text-align:center; font-size:11px; color:var(--faint); margin-top:8px;}
 
+/* CAN-Planer Erweiterungen */
+.tl-obdnote{display:flex; gap:9px; align-items:flex-start; font-size:12.5px; line-height:1.55; border-radius:10px; padding:11px 13px; margin-bottom:14px;}
+.tl-obdnote svg{flex:none; margin-top:2px;}
+.tl-obdnote.ok{background:rgba(86,176,106,.08); border:1px solid rgba(86,176,106,.3); color:#9fd0a8;} .tl-obdnote.ok svg{color:#56b06a;}
+.tl-obdnote.warn{background:rgba(232,132,58,.08); border:1px solid rgba(232,132,58,.3); color:#f0b48a;} .tl-obdnote.warn svg{color:#e8843a;}
+.tl-obdnote b{color:var(--text);}
+.tl-canwarn{display:flex; align-items:center; gap:6px; font-size:11.5px; color:#e8843a; margin-bottom:9px;}
+.tl-canspec{display:flex; flex-direction:column; gap:4px; margin-top:11px; font-size:11.5px; color:var(--muted); line-height:1.5;}
+.tl-canspec b{color:var(--text);}
+.tl-canspec code, .tl-formula{background:var(--panel-2); border:1px solid var(--line); border-radius:5px; padding:1px 5px; font-size:11px;}
+.tl-formula{color:var(--steel);}
+
+/* Werkzeug-Manager */
+.tl-toolrow2{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;}
+.tl-toolbtn{display:inline-flex; align-items:center; gap:8px; background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:10px; padding:10px 15px; font:inherit; font-size:13px; cursor:pointer; transition:border-color .15s, transform .12s, background .15s;}
+.tl-toolbtn:hover{border-color:var(--amber); transform:translateY(-1px); background:var(--panel-2);}
+.tl-toolbtn svg{color:var(--amber);}
+.tl-toolbadge{font-size:10.5px; background:rgba(255,160,31,.15); color:var(--amber); border-radius:999px; padding:2px 8px;}
+.tl-toollist{display:flex; flex-direction:column; gap:7px;}
+.tl-toolrow{display:flex; align-items:center; gap:11px; background:var(--bg); border:1px solid var(--line); border-radius:9px; padding:9px 12px; cursor:pointer;}
+.tl-toolrow input{width:17px; height:17px; accent-color:var(--amber); flex:none;}
+.tl-toolrow.have{opacity:.55;}
+.tl-toolrow.have .tl-toolname{text-decoration:line-through;}
+.tl-toolname{font-size:13.5px; color:var(--text);}
+.tl-toolrent{margin-left:auto; font-size:11px; color:var(--faint); text-align:right;}
+.tl-toolsummary{margin-top:13px; border-radius:9px; padding:10px 13px; font-size:12.5px;}
+.tl-toolsummary.warn{background:rgba(232,132,58,.08); border:1px solid rgba(232,132,58,.3); color:#f0b48a;}
+.tl-toolsummary.ok{background:rgba(86,176,106,.08); border:1px solid rgba(86,176,106,.3); color:#9fd0a8;}
+.tl-toolwish{width:100%; box-sizing:border-box; background:var(--bg); border:1px solid var(--line); border-radius:9px; color:var(--text); padding:10px 12px; font:inherit; font-size:12.5px; line-height:1.5; resize:vertical; outline:none;}
+.tl-toolwish:focus{border-color:var(--amber);}
+
+/* Wiederverkaufswert */
+.tl-resaperin{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;}
+.tl-resain{flex:1; min-width:140px; background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:11px 13px; display:flex; flex-direction:column; gap:3px;}
+.tl-resain span{font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint);}
+.tl-resain b{font-size:18px;}
+.tl-resaslider{display:flex; flex-direction:column; gap:13px; margin-bottom:16px;}
+.tl-resaslider label{display:flex; flex-direction:column; gap:7px; font-size:12.5px; color:var(--muted);}
+.tl-resaslider input[type=range]{width:100%; accent-color:var(--amber);}
+.tl-resacards{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+@media (max-width:560px){ .tl-resacards{grid-template-columns:1fr;} }
+.tl-resacard{background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:13px; display:flex; flex-direction:column; gap:4px;}
+.tl-resacard .t{font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--faint);}
+.tl-resacard .big{font-size:22px; color:var(--text);}
+.tl-resacard em{font-style:normal; font-size:11px; color:var(--faint);}
+.tl-resaverdict{margin-top:14px; border-radius:10px; padding:12px 14px; font-size:13px; line-height:1.5; display:flex; flex-direction:column; gap:6px;}
+.tl-resaverdict.even{background:var(--panel); border:1px solid var(--line); color:var(--muted);}
+.tl-resaverdict.partsbetter{background:rgba(143,176,232,.08); border:1px solid rgba(143,176,232,.3); color:#bcd0f0;}
+.tl-resaverdict.tunedbetter{background:rgba(255,160,31,.08); border:1px solid rgba(255,160,31,.3); color:#f0c98a;}
+.tl-resadiff{font-size:11.5px; opacity:.85; font-family:'IBM Plex Mono',monospace;}
+.tl-resafoot{margin-top:14px; padding-top:12px; border-top:1px dashed var(--line); font-size:12px; line-height:1.6; color:var(--faint);}
+
 @media print{
   body{background:#fff !important;}
   .tl-root > *:not(.tl-overlay){display:none !important;}
@@ -373,7 +425,7 @@ const CARS = [
     name: "Audi A4 B6",
     sub: "2.0 (ALT) · 2003 · Limousine",
     engine: "2.0 20V Sauger · 130 PS / 195 Nm",
-    basePS: 130, baseNM: 195, accel: 10.9, weight: 1345,
+    basePS: 130, baseNM: 195, accel: 10.9, weight: 1345, cyl: 4, baseValue: 3000, obd: "kline",
     body: "limo",
     note: "Den B6 gab\u2019s auch als 1.9 TDI (130 PS \u2013 der Chip-Liebling) und als 3.0 V6 (220 PS). Der 2.0 ist ein Saugmotor: Software bringt hier nur Feinschliff \u2013 die B6-Szene lebt von Fahrwerk, Felgen und cleanem Look.",
     flag: "Stance-Klassiker",
@@ -383,7 +435,7 @@ const CARS = [
     name: "Audi TT 8N",
     sub: "1.8T quattro · Coupé",
     engine: "1.8T 20V (APX) · 225 PS / 280 Nm",
-    basePS: 225, baseNM: 280, accel: 6.4, weight: 1395,
+    basePS: 225, baseNM: 280, accel: 6.4, weight: 1395, cyl: 4, baseValue: 9000, obd: "kline",
     body: "tt",
     note: "Der 1.8T 20V ist DER Tuner-Motor seiner \u00C4ra. Der APX ist die fr\u00FChe 225er-Version (1998\u20132000) mit K04-Lader \u2013 Hardware-Tuning identisch zum sp\u00E4teren BAM. Einziger Haken: das \u00E4ltere Steuerger\u00E4t (ME 3.8.5) \u2013 vorher kl\u00E4ren, ob der Tuner das kann.",
     flag: "Tuner-Liebling",
@@ -393,7 +445,7 @@ const CARS = [
     name: "Mercedes CLK 320 CDI",
     sub: "W209 · OM642 · Coupé",
     engine: "3.0 V6 Diesel · 224 PS / 510 Nm",
-    basePS: 224, baseNM: 510, accel: 6.7, weight: 1540,
+    basePS: 224, baseNM: 510, accel: 6.7, weight: 1540, cyl: 6, baseValue: 7000, obd: "mixed",
     body: "clk",
     note: "Der OM642 ist ein Drehmoment-Monster \u2013 Tuning-Ziel ist hier Nm, nicht Drehzahl. Wichtig: DPF-Entfernung ist illegal (Betriebserlaubnis weg, T\u00DCV ade). Sauber hei\u00DFt: Kennfeld in Ma\u00DFen + gepflegter Filter.",
     flag: "Drehmoment-Fokus",
@@ -403,7 +455,7 @@ const CARS = [
     name: "Hyundai i30 Fastback N Line",
     sub: "PD Fastback \u00B7 Facelift 2021",
     engine: "1.5 T-GDI 48V \u00B7 160 PS / 253 Nm",
-    basePS: 160, baseNM: 253, accel: 8.6, weight: 1380,
+    basePS: 160, baseNM: 253, accel: 8.6, weight: 1380, cyl: 4, baseValue: 22000, obd: "can",
     body: "fastback",
     note: "Der Fastback gibt dem i30 das coup\u00E9hafte Flie\u00DFheck. N Line ist die Sport-Optik-Linie mit dem 1.5 T-GDI Mildhybrid \u2013 NICHT der 280-PS-i30 N. Die Szene bleibt entsprechend milder: etwas Software, Federn, Optik \u2013 fertig ist der schicke Daily.",
     flag: "N Line \u2260 i30 N",
@@ -413,7 +465,7 @@ const CARS = [
     name: "Ford Fiesta 1.6 TDCi",
     sub: "MK6 \u00B7 2009 \u00B7 Kleinwagen",
     engine: "1.6 TDCi Diesel \u00B7 90 PS / 212 Nm",
-    basePS: 90, baseNM: 212, accel: 12.3, weight: 1108,
+    basePS: 90, baseNM: 212, accel: 12.3, weight: 1108, cyl: 4, baseValue: 3500, obd: "can",
     body: "mini",
     note: "Sparsamer Pendler mit Szene-Faktor: Der 1.6 TDCi nimmt Software dankbar an (+25 PS / +50 Nm). DPF bleibt drin \u2013 alles T\u00DCV-konform und alltagstauglich.",
     flag: "Budget-Diesel",
@@ -423,7 +475,7 @@ const CARS = [
     name: "VW Golf 6 1.4 TSI Team",
     sub: "Typ 5K \u00B7 2011 \u00B7 Sondermodell",
     engine: "1.4 TSI \u00B7 122 PS / 200 Nm",
-    basePS: 122, baseNM: 200, accel: 9.5, weight: 1255,
+    basePS: 122, baseNM: 200, accel: 9.5, weight: 1255, cyl: 4, baseValue: 6500, obd: "can",
     body: "golf",
     note: "Sondermodell Team auf 1.4-TSI-Basis (bei VW hei\u00DFt der Motor TSI, nicht TFSI \u2013 das ist Audi). Mit Software und Ladeluftk\u00FChler ein ehrlicher kleiner GTI-Schreck.",
     flag: "Allrounder",
@@ -433,7 +485,7 @@ const CARS = [
     name: "VW Golf Sportsvan 2.0 TDI",
     sub: "\u201EGolf 7 Plus\u201C \u00B7 2014",
     engine: "2.0 TDI EA288 \u00B7 150 PS / 340 Nm",
-    basePS: 150, baseNM: 340, accel: 8.9, weight: 1480,
+    basePS: 150, baseNM: 340, accel: 8.9, weight: 1480, cyl: 4, baseValue: 11000, obd: "can",
     body: "van",
     note: "Offiziell hei\u00DFt der \u201EGolf 7 Plus\u201C ab 2014 Sportsvan. Der EA288-TDI ist eine dankbare Software-Basis: +40 PS / +60 Nm \u2013 DPF bleibt nat\u00FCrlich drin.",
     flag: "Familien-Sleeper",
@@ -443,7 +495,7 @@ const CARS = [
     name: "BMW 430i xDrive Gran Coup\u00E9",
     sub: "F36 \u00B7 2017",
     engine: "B48 2.0 Turbo \u00B7 252 PS / 350 Nm \u00B7 xDrive",
-    basePS: 252, baseNM: 350, accel: 5.5, weight: 1660,
+    basePS: 252, baseNM: 350, accel: 5.5, weight: 1660, cyl: 4, baseValue: 24000, obd: "can",
     body: "gran",
     note: "Der 430i f\u00E4hrt immer den B48 2.0-Turbo (252 PS) \u2013 die gr\u00F6\u00DFeren Sechszylinder hei\u00DFen 440i. Mit xDrive geht der Sprint dank Allrad-Traktion nochmal besser. Stage 2 mit Downpipe kratzt an 320 PS; 200-Zellen-Kat und Eintragung sind Pflicht.",
     flag: "Premium-Basis",
@@ -886,6 +938,8 @@ export default function TuningLab() {
   const [imprintOpen, setImprintOpen] = useState(false);
   const [gaugeOpen, setGaugeOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
+  const [toolOpen, setToolOpen] = useState(false);
+  const [resaleOpen, setResaleOpen] = useState(false);
   const [codeInput, setCodeInput] = useState("");
   const [heroView, setHeroView] = useState("live");
   const toastTimer = React.useRef(null);
@@ -1031,6 +1085,11 @@ export default function TuningLab() {
 
   const fitment = useMemo(
     () => (carId ? fitmentChecks(carId, new Set(selected[carId] || [])) : []),
+    [carId, selected]
+  );
+
+  const buildTools = useMemo(
+    () => (carId ? aggregateTools(carId, new Set(selected[carId] || [])) : []),
     [carId, selected]
   );
 
@@ -1251,7 +1310,7 @@ export default function TuningLab() {
               <div className="tl-powerlabels">
                 <span>Leistung</span>
                 <span className="tl-powright">
-                  <button className="tl-revbtn" onClick={() => revEngine(finalPS)} title="Kurz hochdrehen (synthetischer Sound)">
+                  <button className="tl-revbtn" onClick={() => revEngine(car, finalPS)} title="Kurz hochdrehen \u2013 echtes Sample, sonst synthetischer Motor-Sound">
                     <Volume2 size={13} /> Rev
                   </button>
                   Vollausbau ca. {scale} PS
@@ -1341,6 +1400,18 @@ export default function TuningLab() {
                     </div>
                   ))
                 )}
+              </div>
+            )}
+
+            {selCountTotal > 0 && (
+              <div className="tl-toolrow2">
+                <button className="tl-toolbtn" onClick={() => setToolOpen(true)}>
+                  <Wrench size={16} /> Werkzeug-Liste
+                  {buildTools.some((t) => t.special) && <span className="tl-toolbadge">{buildTools.filter((t) => t.special).length} Spezial</span>}
+                </button>
+                <button className="tl-toolbtn" onClick={() => setResaleOpen(true)}>
+                  <TrendingUp size={16} /> Wiederverkaufswert
+                </button>
               </div>
             )}
 
@@ -1482,8 +1553,10 @@ export default function TuningLab() {
       )}
 
       {imprintOpen && <ImprintModal onClose={() => setImprintOpen(false)} />}
-      {gaugeOpen && <GaugePlannerModal onClose={() => setGaugeOpen(false)} />}
+      {gaugeOpen && <GaugePlannerModal onClose={() => setGaugeOpen(false)} car={car} />}
       {galleryOpen && <GalleryModal onClose={() => setGalleryOpen(false)} onLoad={loadGalleryBuild} />}
+      {toolOpen && <ToolModal onClose={() => setToolOpen(false)} car={car} tools={buildTools} />}
+      {resaleOpen && <ResaleModal onClose={() => setResaleOpen(false)} car={car} partsNew={totals.price} />}
     </div>
   );
 }
@@ -2232,56 +2305,151 @@ function fitmentChecks(carId, set) {
   return out;
 }
 
-/* ---------------- Motor-Sound (Web Audio, synthetisch) ----------------
-   Erzeugt einen kurzen, prozeduralen Hochdreh-Sound (kein Sample, keine Datei).
-   Tonhöhe/Aggressivität skalieren leicht mit der Leistung. */
+/* ---------------- Motor-Sound ----------------
+   1) Wenn eine echte Audiodatei vorliegt (public/sound/<id>.mp3 oder rev.mp3),
+      wird die abgespielt (Tonh\u00F6he leicht an die Leistung angepasst).
+   2) Sonst: prozeduraler Motor-Sound \u00FCber ein Z\u00FCnd-Puls-Modell
+      (firing frequency = Drehzahl/60 \u00B7 Zylinder/2) mit eigenem Oberton-Spektrum,
+      Ansaug-Rauschen und Resonanzfilter \u2013 deutlich motor\u00E4hnlicher als ein reiner Sinus/S\u00E4gezahn. */
 let _tlAudioCtx = null;
-function revEngine(finalPS) {
-  try {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return;
-    _tlAudioCtx = _tlAudioCtx || new AC();
-    const ctx = _tlAudioCtx;
-    if (ctx.state === "suspended") ctx.resume();
-    const now = ctx.currentTime;
-    const dur = 1.25;
-    const ps = finalPS || 200;
+const _revBuffers = {};   // carId -> AudioBuffer (decodiert)
+const _revMissing = {};   // carId/"rev" -> true wenn keine Datei vorhanden
 
-    const master = ctx.createGain();
-    master.gain.value = 0.0001;
-    const filter = ctx.createBiquadFilter();
-    filter.type = "lowpass";
-    master.connect(filter);
-    filter.connect(ctx.destination);
+function _ctx() {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return null;
+  _tlAudioCtx = _tlAudioCtx || new AC();
+  if (_tlAudioCtx.state === "suspended") _tlAudioCtx.resume();
+  return _tlAudioCtx;
+}
 
-    const f0 = 68 + Math.min(55, (ps - 100) * 0.16);
-    const peak = f0 * (4.0 + Math.min(2.6, ps / 240));
+function _engineWave(ctx) {
+  // Oberton-Spektrum eines Verbrenners: starke tiefe + ungerade Harmonische, sanfter Abfall
+  const n = 26;
+  const real = new Float32Array(n);
+  const imag = new Float32Array(n);
+  for (let i = 1; i < n; i++) {
+    let a = 1 / i;
+    if (i % 2 === 1) a *= 1.5;        // ungerade Harmonische (Verbrennung) betonen
+    a *= Math.exp(-i / 11);            // Rolloff
+    imag[i] = a;
+  }
+  return ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+}
 
-    [0, 0.4, -0.4, 0].forEach((det, i) => {
-      const o = ctx.createOscillator();
-      o.type = i === 3 ? "square" : "sawtooth";
-      o.detune.value = det * 13;
-      o.frequency.setValueAtTime(f0, now);
-      o.frequency.exponentialRampToValueAtTime(peak, now + 0.5);
-      o.frequency.exponentialRampToValueAtTime(peak * 0.9, now + 0.72);
-      o.frequency.exponentialRampToValueAtTime(f0 * 1.5, now + dur);
-      const g = ctx.createGain();
-      g.gain.value = i === 3 ? 0.1 : 0.42;
-      o.connect(g);
-      g.connect(master);
-      o.start(now);
-      o.stop(now + dur + 0.05);
-    });
+function _playBuffer(ctx, buf, ps) {
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  // mehr Leistung => minimal h\u00F6her/schneller (max +12 %)
+  src.playbackRate.value = 1 + Math.max(-0.06, Math.min(0.12, (ps - 200) / 1400));
+  const g = ctx.createGain();
+  g.gain.value = 0.9;
+  src.connect(g);
+  g.connect(ctx.destination);
+  src.start();
+}
 
-    filter.frequency.setValueAtTime(650, now);
-    filter.frequency.exponentialRampToValueAtTime(5200, now + 0.5);
-    filter.frequency.exponentialRampToValueAtTime(1500, now + dur);
+function _revSynth(ctx, finalPS, cyl) {
+  const now = ctx.currentTime;
+  const dur = 1.7;
+  const ps = finalPS || 200;
+  const cylinders = cyl || 4;
+  const wave = _engineWave(ctx);
 
-    master.gain.setValueAtTime(0.0001, now);
-    master.gain.exponentialRampToValueAtTime(0.5, now + 0.07);
-    master.gain.exponentialRampToValueAtTime(0.34, now + 0.7);
-    master.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-  } catch (e) {}
+  const master = ctx.createGain();
+  master.gain.value = 0.0001;
+  const shaper = ctx.createWaveShaper();
+  const k = 8, curve = new Float32Array(256);
+  for (let i = 0; i < 256; i++) { const x = (i * 2) / 256 - 1; curve[i] = ((1 + k) * x) / (1 + k * Math.abs(x)); }
+  shaper.curve = curve;
+  const lp = ctx.createBiquadFilter();
+  lp.type = "lowpass";
+  lp.Q.value = 7;
+  master.connect(shaper);
+  shaper.connect(lp);
+  lp.connect(ctx.destination);
+
+  // Drehzahl-Verlauf (U/min): Leerlauf -> Peak -> Settle
+  const idle = 950, peak = 6700, settle = 2500;
+  const fire = (rpm) => (rpm / 60) * (cylinders / 2); // 4-Takt-Z\u00FCndfrequenz
+
+  // zwei leicht verstimmte Stimmen + Sub
+  [0, 7, -7].forEach((cents, i) => {
+    const o = ctx.createOscillator();
+    o.setPeriodicWave(wave);
+    o.detune.value = cents;
+    o.frequency.setValueAtTime(fire(idle), now);
+    o.frequency.exponentialRampToValueAtTime(fire(peak), now + 0.55);
+    o.frequency.exponentialRampToValueAtTime(fire(peak * 0.95), now + 0.8);
+    o.frequency.exponentialRampToValueAtTime(fire(settle), now + dur);
+    const g = ctx.createGain();
+    g.gain.value = i === 0 ? 0.5 : 0.28;
+    o.connect(g); g.connect(master);
+    o.start(now); o.stop(now + dur + 0.05);
+  });
+  // Sub-Oszillator (Rumpeln, eine Oktave unter Z\u00FCndfrequenz)
+  const sub = ctx.createOscillator();
+  sub.type = "sine";
+  sub.frequency.setValueAtTime(fire(idle) / 2, now);
+  sub.frequency.exponentialRampToValueAtTime(fire(peak) / 2, now + 0.55);
+  sub.frequency.exponentialRampToValueAtTime(fire(settle) / 2, now + dur);
+  const subG = ctx.createGain(); subG.gain.value = 0.32;
+  sub.connect(subG); subG.connect(master);
+  sub.start(now); sub.stop(now + dur + 0.05);
+
+  // Ansaug-/Turbo-Rauschen, steigt mit Drehzahl
+  const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * (dur + 0.1), ctx.sampleRate);
+  const nd = noiseBuf.getChannelData(0);
+  for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+  const noise = ctx.createBufferSource(); noise.buffer = noiseBuf;
+  const nbp = ctx.createBiquadFilter(); nbp.type = "bandpass"; nbp.Q.value = 0.8;
+  nbp.frequency.setValueAtTime(900, now);
+  nbp.frequency.exponentialRampToValueAtTime(3500, now + 0.55);
+  nbp.frequency.exponentialRampToValueAtTime(1500, now + dur);
+  const ng = ctx.createGain();
+  ng.gain.setValueAtTime(0.0001, now);
+  ng.gain.exponentialRampToValueAtTime(0.10, now + 0.5);
+  ng.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+  noise.connect(nbp); nbp.connect(ng); ng.connect(master);
+  noise.start(now); noise.stop(now + dur + 0.05);
+
+  // Filter-Sweep (Drosselklappe \u00F6ffnet) + Lautst\u00E4rke-H\u00FCllkurve
+  lp.frequency.setValueAtTime(500, now);
+  lp.frequency.exponentialRampToValueAtTime(4800, now + 0.55);
+  lp.frequency.exponentialRampToValueAtTime(1700, now + dur);
+  master.gain.setValueAtTime(0.0001, now);
+  master.gain.exponentialRampToValueAtTime(0.5, now + 0.06);
+  master.gain.exponentialRampToValueAtTime(0.4, now + 0.8);
+  master.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+}
+
+function revEngine(car, finalPS) {
+  const ctx = _ctx();
+  if (!ctx) return;
+  const id = car && car.id ? car.id : "rev";
+  const cyl = car && car.cyl ? car.cyl : 4;
+
+  // schon decodiertes echtes Sample?
+  if (_revBuffers[id]) { _playBuffer(ctx, _revBuffers[id], finalPS); return; }
+  if (_revMissing[id]) { _revSynth(ctx, finalPS, cyl); return; }
+
+  // echte Datei versuchen (eigene Aufnahme): public/sound/<id>.mp3, sonst rev.mp3
+  const tryUrls = ["sound/" + id + ".mp3", "sound/rev.mp3"];
+  (async () => {
+    for (const url of tryUrls) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) continue;
+        const arr = await res.arrayBuffer();
+        const buf = await ctx.decodeAudioData(arr);
+        _revBuffers[id] = buf;
+        _playBuffer(ctx, buf, finalPS);
+        return;
+      } catch (e) { /* n\u00E4chste URL */ }
+    }
+    _revMissing[id] = true;     // nichts gefunden -> ab jetzt Synth
+    _revSynth(ctx, finalPS, cyl);
+  })();
 }
 
 /* ---------------- Build-Galerie (kuratierte Beispiel-Builds) ----------------
@@ -2312,6 +2480,70 @@ const GALLERY = [
     blurb: "190 PS Diesel im Van \u2013 unscheinbar schnell, DSG-Map inklusive.",
     ids: ["gsv-s1", "gsv-dsg", "gsv-hr", "gsv-esd", "gsv-tint"] },
 ];
+
+/* ---------------- Werkzeug-Manager ----------------
+   Ordnet jedem Teil das n\u00F6tige (Spezial-)Werkzeug zu. Heuristisch nach Teile-Art.
+   special=true -> Spezialwerkzeug (leihen/mieten sinnvoll). rent = grobe Leih-/Kaufkosten DE. */
+const TOOLS = {
+  federspanner:   { name: "Federspanner", special: true, rent: "Leihe ~5\u201315 \u20AC/Tag (Baumarkt) oder Werkstatt" },
+  wagenheber:     { name: "Wagenheber + Unterstellb\u00F6cke", special: false, rent: "Standardausr\u00FCstung" },
+  drehmoment:     { name: "Drehmomentschl\u00FCssel", special: false, rent: "~25\u201360 \u20AC Kauf" },
+  bremskolben:    { name: "Bremskolben-R\u00FCcksteller", special: true, rent: "~15\u201330 \u20AC Kauf / Leihkasten" },
+  entlueftung:    { name: "Bremsen-Entl\u00FCftungsger\u00E4t", special: true, rent: "Leihe o. 2. Person" },
+  obdflash:       { name: "OBD-Flash-Tool / Laptop (oder Tuner vor Ort)", special: true, rent: "Tuner-Termin / Leih-Cable" },
+  vcds:           { name: "VCDS / OBDeleven (VAG-Codierung)", special: true, rent: "OBDeleven ~ ab 40 \u20AC" },
+  hebebuehne:     { name: "Hebeb\u00FChne / Grube", special: true, rent: "Mietwerkstatt ~15\u201330 \u20AC/h" },
+  saege:          { name: "S\u00E4ge / Trennschleifer (Auspuff)", special: false, rent: "Standard" },
+  lambda:         { name: "Lambdasonden-Nuss", special: true, rent: "~10\u201320 \u20AC Kauf" },
+  loeten:         { name: "L\u00F6tkolben / Crimpzange (Elektrik)", special: false, rent: "Standard" },
+  folie:          { name: "Rakel + Hei\u00DFluftf\u00F6hn (Folie)", special: false, rent: "oder Folierer" },
+  multimeter:     { name: "Multimeter", special: false, rent: "~15\u201330 \u20AC Kauf" },
+};
+
+function toolsFor(mod) {
+  const t = (mod.name + " " + (mod.desc || "")).toLowerCase();
+  const ids = new Set();
+  if (mod.cat === "fahrwerk") {
+    ids.add("wagenheber"); ids.add("drehmoment");
+    if (/gewinde|federn/.test(t)) ids.add("federspanner");
+  }
+  if (mod.cat === "bremsen") {
+    ids.add("wagenheber"); ids.add("drehmoment");
+    if (/bel\u00E4ge|greenstuff|yellowstuff|scheiben|ate|ebc|ceramic/.test(t)) ids.add("bremskolben");
+    if (/stahlflex|entl\u00FCft/.test(t)) ids.add("entlueftung");
+  }
+  if (mod.cat === "optik") {
+    if (/felgen|leichtmetall|m-style|ultraleggera|zoll|\u2033|spurplatten/.test(t)) { ids.add("wagenheber"); ids.add("drehmoment"); }
+    if (/t\u00F6nung|folier/.test(t)) ids.add("folie");
+  }
+  if (mod.cat === "motor") {
+    if (/stage|kennfeld|software|map|s1|s2/.test(t)) ids.add("obdflash");
+    if (/dsg|getriebe/.test(t)) ids.add("vcds");
+    if (/downpipe|kat|abgas|esd|endschall/.test(t)) { ids.add("hebebuehne"); ids.add("saege"); ids.add("lambda"); }
+    if (/ladeluft|fmic|ansaug/.test(t)) ids.add("drehmoment");
+    if (/pedalbox|schubumluft|ventil|filter/.test(t)) ids.add("loeten");
+  }
+  return [...ids];
+}
+
+function aggregateTools(carId, set) {
+  if (!carId) return [];
+  const ids = new Set();
+  for (const m of MODS[carId]) if (set.has(m.id)) toolsFor(m).forEach((t) => ids.add(t));
+  return [...ids].map((id) => ({ id, ...TOOLS[id] })).sort((a, b) => (b.special - a.special));
+}
+
+/* ---------------- Wiederverkaufswert-Schätzung ----------------
+   Sehr grobes Modell, KEINE Gewähr. recTuned = Anteil der Teilekosten, den ein
+   getuntes Auto beim Verkauf "mitnimmt"; recParts = Restwert gebrauchter Teile
+   beim Einzelverkauf. Werte bewusst als Annahmen einstellbar. */
+function resaleEstimate(baseValue, partsNew, recTuned, recParts) {
+  const tunedCar = Math.round(baseValue + partsNew * recTuned);          // Auto getunt verkaufen
+  const partsResale = Math.round(partsNew * recParts);                    // Teile einzeln (gebraucht)
+  const stockPlusParts = Math.round(baseValue + partsResale);            // Serie verkaufen + Teile separat
+  const investTotal = Math.round(baseValue + partsNew);                  // grobe Gesamtinvestition
+  return { tunedCar, partsResale, stockPlusParts, investTotal, diff: stockPlusParts - tunedCar };
+}
 
 /* ---------------- Build-Sharing per URL-Hash ---------------- */
 function readBuildFromHash() {
@@ -2459,15 +2691,17 @@ function DynoChart({ basePS, baseNM, finalPS, finalNM }) {
    ============================================================ */
 
 const GAUGE_PRESETS = [
-  { id: "boost",    name: "Ladedruck",          unit: "bar",   src: "analog", pid: "0x0B (MAP)", hint: "3-Bar-MAP-Sensor 0\u20135 V \u2013 oder OBD-PID 0x0B \u00FCber CAN" },
-  { id: "oiltemp",  name: "\u00D6ltemperatur",   unit: "\u00B0C", src: "analog", pid: "0x5C",       hint: "Analoger NTC-Geber \u2013 oder OBD-PID 0x5C (falls unterst\u00FCtzt)" },
-  { id: "oilpress", name: "\u00D6ldruck",         unit: "bar",   src: "analog", pid: "\u2013",       hint: "Analoger Drucksensor 0\u20135 V / 0\u201310 bar (kein Standard-PID)" },
-  { id: "water",    name: "Wassertemperatur",    unit: "\u00B0C", src: "can",    pid: "0x05",       hint: "OBD-PID 0x05 \u00FCber CAN-Bus" },
-  { id: "iat",      name: "Ansaugtemperatur",    unit: "\u00B0C", src: "can",    pid: "0x0F",       hint: "OBD-PID 0x0F \u00FCber CAN-Bus" },
-  { id: "afr",      name: "AFR / Lambda",         unit: "\u03BB",  src: "analog", pid: "0x34",       hint: "Wideband-Controller 0\u20135 V (LSU 4.9) \u2013 oder OBD-PID 0x34" },
-  { id: "rpm",      name: "Drehzahl",             unit: "1/min", src: "can",    pid: "0x0C",       hint: "OBD-PID 0x0C \u00FCber CAN-Bus" },
-  { id: "volt",     name: "Bordspannung",         unit: "V",     src: "analog", pid: "0x42",       hint: "ADC + Spannungsteiler \u2013 oder OBD-PID 0x42" },
-  { id: "egt",      name: "Abgastemperatur",      unit: "\u00B0C", src: "spi",    pid: "\u2013",       hint: "Thermoelement Typ K + MAX31855 (SPI)" },
+  { id: "boost",    name: "Ladedruck",          unit: "bar",   src: "analog", pid: "0x0B (MAP)", formula: "A (kPa) \u2212 Umgebungsdruck", hint: "3-Bar-MAP-Sensor 0\u20135 V am ADC \u2013 oder OBD-PID 0x0B (Absolutdruck) \u00FCber CAN" },
+  { id: "oiltemp",  name: "\u00D6ltemperatur",   unit: "\u00B0C", src: "analog", pid: "0x5C",       formula: "A \u2212 40", hint: "Analoger NTC-Geber am ADC \u2013 oder OBD-PID 0x5C (falls vom Steuerger\u00E4t unterst\u00FCtzt)" },
+  { id: "oilpress", name: "\u00D6ldruck",         unit: "bar",   src: "analog", pid: "\u2013",       formula: "sensorabh\u00E4ngig (0,5\u20134,5 V)", hint: "Analoger Drucksensor 0\u20135 V / 0\u201310 bar \u2013 kein Standard-OBD-PID" },
+  { id: "water",    name: "Wassertemperatur",    unit: "\u00B0C", src: "can",    pid: "0x05",       formula: "A \u2212 40", hint: "OBD-Mode 01, PID 0x05 \u00FCber CAN" },
+  { id: "iat",      name: "Ansaugtemperatur",    unit: "\u00B0C", src: "can",    pid: "0x0F",       formula: "A \u2212 40", hint: "OBD-Mode 01, PID 0x0F \u00FCber CAN" },
+  { id: "afr",      name: "AFR / Lambda",         unit: "\u03BB",  src: "analog", pid: "0x24\u20130x2B", formula: "((256\u00B7A+B)/32768) \u00B7 \u03BB", hint: "Wideband-Controller 0\u20135 V (LSU 4.9) am ADC \u2013 oder Lambda-PIDs \u00FCber CAN" },
+  { id: "rpm",      name: "Drehzahl",             unit: "1/min", src: "can",    pid: "0x0C",       formula: "(256\u00B7A + B) / 4", hint: "OBD-Mode 01, PID 0x0C \u00FCber CAN" },
+  { id: "speed",    name: "Geschwindigkeit",      unit: "km/h",  src: "can",    pid: "0x0D",       formula: "A", hint: "OBD-Mode 01, PID 0x0D \u00FCber CAN" },
+  { id: "throttle", name: "Drosselklappe",        unit: "%",     src: "can",    pid: "0x11",       formula: "A \u00B7 100 / 255", hint: "OBD-Mode 01, PID 0x11 \u00FCber CAN" },
+  { id: "volt",     name: "Bordspannung",         unit: "V",     src: "analog", pid: "0x42",       formula: "(256\u00B7A+B) / 1000", hint: "ADC mit Spannungsteiler \u2013 oder Modul-Spannung PID 0x42 \u00FCber CAN" },
+  { id: "egt",      name: "Abgastemperatur",      unit: "\u00B0C", src: "spi",    pid: "\u2013",       formula: "MAX31855 liefert \u00B0C direkt", hint: "Thermoelement Typ K + MAX31855-Wandler (SPI)" },
 ];
 
 const SRC_LABEL = { can: "CAN / OBD-II", analog: "Analog (ADC)", spi: "SPI" };
@@ -2502,17 +2736,19 @@ function pinIssue(gpio, srcType) {
   return null;
 }
 
-function GaugePlannerModal({ onClose }) {
-  const LS = "tl-gauges-v1";
+function GaugePlannerModal({ onClose, car }) {
+  const LS = "tl-gauges-v2";
   const [canTx, setCanTx] = useState(5);
   const [canRx, setCanRx] = useState(4);
+  const [speed, setSpeed] = useState(500);
+  const [trx, setTrx] = useState("SN65HVD230");
   const [rows, setRows] = useState([
     { key: 1, preset: "boost", pin: 32 },
-    { key: 2, preset: "oiltemp", pin: 33 },
+    { key: 2, preset: "rpm", pin: null },
+    { key: 3, preset: "oiltemp", pin: 33 },
   ]);
-  const nextKey = React.useRef(3);
+  const nextKey = React.useRef(4);
 
-  // laden (falls vorhanden) – auf GitHub Pages persistent, im Sandbox-Preview egal
   React.useEffect(() => {
     try {
       const raw = localStorage.getItem(LS);
@@ -2521,6 +2757,8 @@ function GaugePlannerModal({ onClose }) {
         if (Array.isArray(d.rows)) { setRows(d.rows); nextKey.current = (d.rows.reduce((a, r) => Math.max(a, r.key), 0) || 0) + 1; }
         if (d.canTx != null) setCanTx(d.canTx);
         if (d.canRx != null) setCanRx(d.canRx);
+        if (d.speed != null) setSpeed(d.speed);
+        if (d.trx) setTrx(d.trx);
       }
     } catch (e) {}
     const h = (e) => { if (e.key === "Escape") onClose(); };
@@ -2528,71 +2766,60 @@ function GaugePlannerModal({ onClose }) {
     return () => window.removeEventListener("keydown", h);
   }, [onClose]);
 
-  const persist = (r, tx, rx) => {
-    try { localStorage.setItem(LS, JSON.stringify({ rows: r, canTx: tx, canRx: rx })); } catch (e) {}
+  const persist = (patch) => {
+    try {
+      const cur = { rows, canTx, canRx, speed, trx, ...patch };
+      localStorage.setItem(LS, JSON.stringify(cur));
+    } catch (e) {}
   };
 
   const preset = (id) => GAUGE_PRESETS.find((g) => g.id === id) || GAUGE_PRESETS[0];
 
-  const update = (key, patch) => {
-    setRows((prev) => {
-      const next = prev.map((r) => (r.key === key ? { ...r, ...patch } : r));
-      persist(next, canTx, canRx);
-      return next;
-    });
-  };
+  const update = (key, p) => setRows((prev) => { const n = prev.map((r) => (r.key === key ? { ...r, ...p } : r)); persist({ rows: n }); return n; });
   const changePreset = (key, pid) => {
     const p = preset(pid);
-    // bei CAN-Quelle keinen Pin nötig
-    update(key, { preset: pid, pin: p.src === "can" ? null : (rows.find((r) => r.key === key) || {}).pin ?? 32 });
+    const cur = rows.find((r) => r.key === key) || {};
+    update(key, { preset: pid, pin: p.src === "can" ? null : (cur.pin ?? 32) });
   };
-  const addRow = () => {
-    setRows((prev) => {
-      const next = [...prev, { key: nextKey.current++, preset: "water", pin: null }];
-      persist(next, canTx, canRx);
-      return next;
-    });
-  };
-  const removeRow = (key) => {
-    setRows((prev) => {
-      const next = prev.filter((r) => r.key !== key);
-      persist(next, canTx, canRx);
-      return next;
-    });
-  };
-  const setTx = (v) => { setCanTx(v); persist(rows, v, canRx); };
-  const setRx = (v) => { setCanRx(v); persist(rows, canTx, v); };
+  const addRow = () => setRows((prev) => { const n = [...prev, { key: nextKey.current++, preset: "water", pin: null }]; persist({ rows: n }); return n; });
+  const removeRow = (key) => setRows((prev) => { const n = prev.filter((r) => r.key !== key); persist({ rows: n }); return n; });
+  const setTxP = (v) => { setCanTx(v); persist({ canTx: v }); };
+  const setRxP = (v) => { setCanRx(v); persist({ canRx: v }); };
+  const setSp = (v) => { setSpeed(v); persist({ speed: v }); };
+  const setTr = (v) => { setTrx(v); persist({ trx: v }); };
 
-  // genutzte Pins sammeln (für Doppelbelegungs-Warnung)
-  const usedPins = {};
-  const reg = (g, who) => { if (g == null || g === "") return; (usedPins[g] = usedPins[g] || []).push(who); };
-  reg(canTx, "CAN-TX"); reg(canRx, "CAN-RX");
-  rows.forEach((r) => { const p = preset(r.preset); if (p.src !== "can") reg(r.pin, p.name); });
-  const dupes = Object.entries(usedPins).filter(([, who]) => who.length > 1);
-
+  // genutzte Pins (Doppelbelegung)
+  const used = {};
+  const reg = (g, who) => { if (g == null || g === "") return; (used[g] = used[g] || []).push(who); };
   const needsCan = rows.some((r) => preset(r.preset).src === "can");
+  if (needsCan) { reg(canTx, "CAN-TX"); reg(canRx, "CAN-RX"); }
+  rows.forEach((r) => { const p = preset(r.preset); if (p.src !== "can") reg(r.pin, p.name); });
+  const dupes = Object.entries(used).filter(([, w]) => w.length > 1);
 
   const pinOptions = (srcType) =>
-    ESP32_PINS
-      .filter((p) => (srcType === "analog" ? p.f.includes("adc1") || p.f.includes("adc2") : true))
-      .map((p) => p.g);
+    ESP32_PINS.filter((p) => (srcType === "analog" ? p.f.includes("adc1") || p.f.includes("adc2") : true)).map((p) => p.g);
+
+  // OBD-Verfügbarkeit je nach Fahrzeug-Protokoll
+  const obd = car ? car.obd : null;
+  const canBlocked = obd === "kline";
 
   const exportJson = () => {
     const data = {
-      board: "ESP32",
-      can: needsCan ? { tx: canTx, rx: canRx, transceiver: "SN65HVD230 / MCP2551", note: "TWAI-Controller, 500 kbit/s typ." } : null,
+      board: "ESP32 (TWAI)",
+      vehicle: car ? car.name : null,
+      diagnose_protokoll: obd === "kline" ? "K-Line / KWP2000 (kein CAN-OBD)" : obd === "mixed" ? "CAN oder K-Line - am OBD-Stecker pruefen" : obd === "can" ? "OBD-II ueber CAN (ISO 15765)" : "unbekannt",
+      can: needsCan ? {
+        tx: "GPIO" + canTx, rx: "GPIO" + canRx, speed_kbit: speed,
+        transceiver: trx, request_id: "0x7DF (functional)", response_id: "0x7E8",
+        termination: "OBD-Port hat bereits 120 Ohm - KEIN zweiter Abschluss",
+      } : null,
       gauges: rows.map((r) => {
         const p = preset(r.preset);
-        return { name: p.name, unit: p.unit, source: SRC_LABEL[p.src], pid: p.pid, pin: p.src === "can" ? "CAN-Bus" : "GPIO" + r.pin };
+        return { messwert: p.name, einheit: p.unit, quelle: SRC_LABEL[p.src], pid: p.pid, formel: p.formula, pin: p.src === "can" ? "CAN-Bus" : "GPIO" + r.pin };
       }),
     };
     const json = JSON.stringify(data, null, 2);
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(json).then(
-        () => alert("Pinbelegung als JSON kopiert."),
-        () => {}
-      );
-    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(json).then(() => alert("Konfiguration als JSON kopiert."), () => {});
   };
 
   return (
@@ -2609,31 +2836,65 @@ function GaugePlannerModal({ onClose }) {
           </div>
           <div className="tl-sheetbody">
             <p className="tl-gaugeintro">
-              Plane eigene Anzeigen f\u00FCr ein ESP32-Display: w\u00E4hle Messwerte, ihre Quelle (CAN-Bus / Analog / SPI)
-              und die GPIO-Pins. Der Planer warnt bei ungeeigneten Pins und merkt sich deine Belegung im Browser.
+              Plane Custom-Gauges f&uuml;r ein ESP32-Display: Messwerte, Quelle (CAN&nbsp;/&nbsp;Analog&nbsp;/&nbsp;SPI),
+              GPIO-Pins und OBD-Decode-Formeln. Der Planer warnt bei ungeeigneten Pins und merkt sich alles im Browser.
             </p>
+
+            {/* Fahrzeug-Protokoll */}
+            {car && (
+              <div className={"tl-obdnote " + (obd === "can" ? "ok" : "warn")}>
+                {obd === "can" && <><Check size={14} strokeWidth={3} /><span><b>{car.name}:</b> OBD-II &uuml;ber CAN (ISO&nbsp;15765, 11-Bit). CAN-Messwerte funktionieren.</span></>}
+                {obd === "mixed" && <><TriangleAlert size={14} /><span><b>{car.name} ({car.sub}):</b> Baujahr im &Uuml;bergang &ndash; manche Fahrzeuge fahren noch K-Line statt CAN. Am OBD-Stecker pr&uuml;fen: Pin&nbsp;6/14 belegt = CAN.</span></>}
+                {obd === "kline" && <><TriangleAlert size={14} /><span><b>{car.name}:</b> Dieses Baujahr nutzt f&uuml;r die Diagnose <b>K-Line / KWP2000</b>, nicht CAN. F&uuml;r OBD-Werte brauchst du ein K-Line-Interface; die internen Steuerger&auml;te-Busse sind nicht der OBD-CAN. Analog/SPI-Sensoren gehen trotzdem.</span></>}
+              </div>
+            )}
 
             {/* CAN-Bus-Setup */}
             <div className={"tl-gaugecan" + (needsCan ? "" : " off")}>
-              <div className="tl-gaugesub tl-display">CAN-Bus (TWAI)</div>
+              <div className="tl-gaugesub tl-display">CAN-Bus (ESP32 TWAI)</div>
               {needsCan ? (
                 <>
+                  {canBlocked && <div className="tl-canwarn"><TriangleAlert size={13} /> Achtung: gew&auml;hltes Fahrzeug nutzt K-Line &ndash; CAN-Werte liefern hier nichts.</div>}
                   <div className="tl-canrow">
-                    <label>CAN-TX
-                      <select value={canTx} onChange={(e) => setTx(Number(e.target.value))}>
+                    <label>CAN-TX (Pin)
+                      <select value={canTx} onChange={(e) => setTxP(Number(e.target.value))}>
                         {ESP32_PINS.filter((p) => !p.f.includes("io")).map((p) => <option key={p.g} value={p.g}>GPIO{p.g}</option>)}
                       </select>
                     </label>
-                    <label>CAN-RX
-                      <select value={canRx} onChange={(e) => setRx(Number(e.target.value))}>
+                    <label>CAN-RX (Pin)
+                      <select value={canRx} onChange={(e) => setRxP(Number(e.target.value))}>
                         {ESP32_PINS.map((p) => <option key={p.g} value={p.g}>GPIO{p.g}</option>)}
                       </select>
                     </label>
+                    <label>Bus-Speed
+                      <select value={speed} onChange={(e) => setSp(Number(e.target.value))}>
+                        <option value={500}>500 kbit/s (OBD-Standard)</option>
+                        <option value={250}>250 kbit/s</option>
+                        <option value={1000}>1 Mbit/s</option>
+                      </select>
+                    </label>
+                    <label>Transceiver
+                      <select value={trx} onChange={(e) => setTr(e.target.value)}>
+                        <option value="SN65HVD230">SN65HVD230 (3,3 V)</option>
+                        <option value="MCP2551">MCP2551 (5 V)</option>
+                        <option value="TJA1050">TJA1050 (5 V)</option>
+                      </select>
+                    </label>
                   </div>
-                  <div className="tl-gaugehint">Externer Transceiver n\u00F6tig (z.\u202FB. SN65HVD230 oder MCP2551), \u00FCblich 500\u202Fkbit/s. ODB-II-Stecker Pin 6 = CAN-H, Pin 14 = CAN-L.</div>
+                  <div className="tl-canspec">
+                    <span><b>Request-ID</b> 0x7DF (funktional) &middot; <b>Antwort</b> 0x7E8</span>
+                    <span><b>Anfrage</b> Mode 0x01 + PID, z.&nbsp;B. <code className="tl-mono">02 01 0C</code> = Drehzahl</span>
+                    <span><b>OBD-Stecker</b> Pin&nbsp;6 = CAN-H, Pin&nbsp;14 = CAN-L, Pin&nbsp;16 = +12&nbsp;V, Pin&nbsp;4/5 = Masse</span>
+                  </div>
+                  <div className="tl-gaugehint">
+                    {trx === "SN65HVD230"
+                      ? "SN65HVD230 l\u00E4uft mit 3,3 V \u2013 direkt am ESP32, kein Level-Shifter n\u00F6tig."
+                      : "5-V-Transceiver: RX \u00FCber Spannungsteiler/Level-Shifter auf 3,3 V bringen, sonst ESP32-Pin in Gefahr."}
+                    {" "}Abschluss: der OBD-Port hat schon 120&nbsp;\u03A9 \u2013 keinen zweiten Widerstand setzen. Library: <code className="tl-mono">driver/twai.h</code> oder ESP32-TWAI-CAN.
+                  </div>
                 </>
               ) : (
-                <div className="tl-gaugehint">Aktuell kein CAN-Messwert gew\u00E4hlt \u2013 Bus wird nicht ben\u00F6tigt.</div>
+                <div className="tl-gaugehint">Kein CAN-Messwert gew\u00E4hlt \u2013 Bus wird nicht ben\u00F6tigt. F\u00FCge z.\u202FB. Drehzahl oder Wassertemperatur hinzu.</div>
               )}
             </div>
 
@@ -2663,6 +2924,7 @@ function GaugePlannerModal({ onClose }) {
                     </div>
                     <div className="tl-gaugemeta">
                       <span>{p.hint}</span>
+                      {p.formula && <span className="tl-formula mono">f(x) = {p.formula}</span>}
                       {issue && <span className="tl-pinwarn"><TriangleAlert size={12} /> {issue}</span>}
                     </div>
                   </div>
@@ -2675,15 +2937,15 @@ function GaugePlannerModal({ onClose }) {
             {dupes.length > 0 && (
               <div className="tl-gaugedupe">
                 <TriangleAlert size={14} />
-                <span>Doppelte Pin-Belegung: {dupes.map(([g, who]) => "GPIO" + g + " (" + who.join(" + ") + ")").join(", ")}</span>
+                <span>Doppelte Pin-Belegung: {dupes.map(([g, w]) => "GPIO" + g + " (" + w.join(" + ") + ")").join(", ")}</span>
               </div>
             )}
 
             <div className="tl-gaugelegend">
-              <b className="tl-display">Pin-Hinweise</b>
-              <span>ADC1 = GPIO32\u201339 (analogtauglich, auch bei WLAN) \u00B7 ADC2 = WLAN-Konflikt \u00B7 GPIO34/35/36/39 = nur Eingang \u00B7 Strapping: 0/2/5/12/15.</span>
+              <b className="tl-display">Pin-Hinweise (ESP32)</b>
+              <span>ADC1 = GPIO32\u201339 (analogtauglich, auch bei aktivem WLAN) \u00B7 ADC2 = WLAN-Konflikt \u00B7 GPIO34/35/36/39 = nur Eingang (kein Ausgang) \u00B7 Strapping-Pins: GPIO0/2/5/12/15 nur mit Bedacht.</span>
             </div>
-            <div className="tl-dynonote">Planungshilfe \u2013 Pins frei konfigurierbar. Im Zweifel das Datenblatt deines Boards pr\u00FCfen.</div>
+            <div className="tl-dynonote">Planungshilfe \u2013 Pins/PIDs frei konfigurierbar. Nicht jedes Steuerger\u00E4t liefert jeden PID; im Zweifel Board-Datenblatt und Fahrzeug-Doku pr\u00FCfen.</div>
           </div>
         </div>
       </div>
@@ -2772,6 +3034,200 @@ function GalleryModal({ onClose, onLoad }) {
           </div>
           <div className="tl-galcount tl-mono">{idx + 1} / {n}</div>
           <div className="tl-dynonote" style={{ textAlign: "center" }}>Kuratierte Beispiel-Builds zum St\u00F6bern \u2013 swipe oder Pfeiltasten.</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   Werkzeug-Manager — benötigtes (Spezial-)Werkzeug + Verleih-Notizen
+   ============================================================ */
+function ToolModal({ onClose, car, tools }) {
+  const LS = "tl-toolbox-v1";
+  const [owned, setOwned] = useState({});   // toolId -> true (habe ich)
+  const [wishlist, setWishlist] = useState("");
+
+  React.useEffect(() => {
+    try {
+      const raw = localStorage.getItem(LS);
+      if (raw) { const d = JSON.parse(raw); if (d.owned) setOwned(d.owned); if (typeof d.wishlist === "string") setWishlist(d.wishlist); }
+    } catch (e) {}
+    const h = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [onClose]);
+
+  const toggleOwned = (id) => setOwned((prev) => {
+    const n = { ...prev, [id]: !prev[id] };
+    try { localStorage.setItem(LS, JSON.stringify({ owned: n, wishlist })); } catch (e) {}
+    return n;
+  });
+  const saveWish = (v) => { setWishlist(v); try { localStorage.setItem(LS, JSON.stringify({ owned, wishlist: v })); } catch (e) {} };
+
+  const special = tools.filter((t) => t.special);
+  const standard = tools.filter((t) => !t.special);
+  const missingSpecial = special.filter((t) => !owned[t.id]);
+
+  return (
+    <div className="tl-overlay" onClick={onClose}>
+      <div onClick={(e) => e.stopPropagation()} style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
+        <div className="tl-sheetactions">
+          <button className="tl-sheetclose" onClick={onClose}><X size={15} /> Schlie&szlig;en</button>
+        </div>
+        <div className="tl-sheet tl-tool">
+          <div className="tl-sheethead">
+            <div className="brand tl-display">Tuning Lab</div>
+            <div className="tl-sheetcar tl-display">Werkzeug-Manager</div>
+          </div>
+          <div className="tl-sheetbody">
+            {tools.length === 0 ? (
+              <p className="tl-gaugeintro">W&auml;hle zuerst Teile f&uuml;r {car ? car.name : "dein Auto"} &ndash; dann zeigt der Manager, welches Werkzeug du f&uuml;r den Einbau brauchst.</p>
+            ) : (
+              <>
+                <p className="tl-gaugeintro">F&uuml;r deinen aktuellen Build ({car ? car.name : ""}) brauchst du folgendes Werkzeug. Hake ab, was du hast &ndash; der Rest ist deine Leih-/Kaufliste.</p>
+
+                {special.length > 0 && (
+                  <>
+                    <div className="tl-gaugesub tl-display">Spezialwerkzeug</div>
+                    <div className="tl-toollist">
+                      {special.map((t) => (
+                        <label key={t.id} className={"tl-toolrow" + (owned[t.id] ? " have" : "")}>
+                          <input type="checkbox" checked={!!owned[t.id]} onChange={() => toggleOwned(t.id)} />
+                          <span className="tl-toolname">{t.name}</span>
+                          <span className="tl-toolrent">{t.rent}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {standard.length > 0 && (
+                  <>
+                    <div className="tl-gaugesub tl-display">Standardwerkzeug</div>
+                    <div className="tl-toollist">
+                      {standard.map((t) => (
+                        <label key={t.id} className={"tl-toolrow" + (owned[t.id] ? " have" : "")}>
+                          <input type="checkbox" checked={!!owned[t.id]} onChange={() => toggleOwned(t.id)} />
+                          <span className="tl-toolname">{t.name}</span>
+                          <span className="tl-toolrent">{t.rent}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                <div className={"tl-toolsummary " + (missingSpecial.length ? "warn" : "ok")}>
+                  {missingSpecial.length
+                    ? "Dir fehlen noch " + missingSpecial.length + " Spezialwerkzeug(e) \u2013 leihen oder vor dem Schraubtag besorgen."
+                    : "Alles Spezialwerkzeug vorhanden \u2013 los geht\u2019s. \uD83D\uDD27"}
+                </div>
+              </>
+            )}
+
+            {/* Verleih / Tausch */}
+            <div className="tl-gaugesub tl-display">Werkzeug-Verleih (Notiz)</div>
+            <p className="tl-gaugehint" style={{ marginTop: 0 }}>
+              Was verleihst oder suchst du? Halte es hier fest (wird im Browser gespeichert). Echtes Verleihen
+              zwischen Nutzern br&auml;uchte einen Server &ndash; bis dahin ist das deine pers&ouml;nliche Liste f&uuml;r die WhatsApp-Gruppe.
+            </p>
+            <textarea
+              className="tl-toolwish"
+              value={wishlist}
+              onChange={(e) => saveWish(e.target.value)}
+              placeholder={"z. B.\nVerleihe: Federspanner, Bremskolben-R\u00FCcksteller\nSuche: VCDS-Kabel f\u00FCrs Wochenende"}
+              rows={4}
+            />
+            <div className="tl-dynonote">Leih-/Kaufpreise sind grobe Richtwerte (DE) ohne Gew&auml;hr.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   Wiederverkaufswert-Rechner — Schätzung, keine Gewähr
+   ============================================================ */
+function ResaleModal({ onClose, car, partsNew }) {
+  const [recTuned, setRecTuned] = useState(25);  // % der Teilekosten, die das getunte Auto "mitnimmt"
+  const [recParts, setRecParts] = useState(50);  // % Restwert gebrauchter Teile beim Einzelverkauf
+
+  React.useEffect(() => {
+    const h = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [onClose]);
+
+  const base = car ? car.baseValue || 0 : 0;
+  const r = resaleEstimate(base, partsNew, recTuned / 100, recParts / 100);
+  const recommend = r.diff > 300
+    ? "Tendenz: Auto auf Serie zur\u00FCckbauen und Teile einzeln verkaufen bringt rechnerisch mehr."
+    : r.diff < -300
+    ? "Tendenz: als fertiges Tuning-Auto verkaufen bringt rechnerisch mehr (gepflegte, gefragte Teile)."
+    : "Beide Wege liegen eng beieinander \u2013 dann entscheidet Aufwand, K\u00E4ufersuche und Zustand.";
+
+  return (
+    <div className="tl-overlay" onClick={onClose}>
+      <div onClick={(e) => e.stopPropagation()} style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
+        <div className="tl-sheetactions">
+          <button className="tl-sheetclose" onClick={onClose}><X size={15} /> Schlie&szlig;en</button>
+        </div>
+        <div className="tl-sheet tl-resale">
+          <div className="tl-sheethead">
+            <div className="brand tl-display">Tuning Lab</div>
+            <div className="tl-sheetcar tl-display">Wiederverkaufswert</div>
+          </div>
+          <div className="tl-sheetbody">
+            <p className="tl-gaugeintro">
+              Grobe Sch&auml;tzung f&uuml;r {car ? car.name : "dein Auto"}: lohnt sich beim Verkauf eher das fertige Tuning-Auto
+              oder Serie&nbsp;+&nbsp;Teile einzeln? <b>Reine Sch&auml;tzung, keine Gew&auml;hr</b> &ndash; Markt, Zustand und K&auml;ufer entscheiden.
+            </p>
+
+            <div className="tl-resaperin">
+              <div className="tl-resain">
+                <span>Grober Marktwert Serie</span>
+                <b className="tl-mono">{fmtEUR(base)}</b>
+              </div>
+              <div className="tl-resain">
+                <span>Investiert in Teile (neu)</span>
+                <b className="tl-mono">{fmtEUR(partsNew)}</b>
+              </div>
+            </div>
+
+            <div className="tl-resaslider">
+              <label>Werterhalt am getunten Auto: <b className="tl-mono">{recTuned}%</b> der Teilekosten
+                <input type="range" min="0" max="80" value={recTuned} onChange={(e) => setRecTuned(Number(e.target.value))} />
+              </label>
+              <label>Restwert Teile gebraucht: <b className="tl-mono">{recParts}%</b> vom Neupreis
+                <input type="range" min="20" max="80" value={recParts} onChange={(e) => setRecParts(Number(e.target.value))} />
+              </label>
+            </div>
+
+            <div className="tl-resacards">
+              <div className="tl-resacard">
+                <span className="t">Variante A &middot; getunt verkaufen</span>
+                <b className="tl-mono big">{fmtEUR(r.tunedCar)}</b>
+                <em>{fmtEUR(base)} + {recTuned}% von {fmtEUR(partsNew)}</em>
+              </div>
+              <div className="tl-resacard">
+                <span className="t">Variante B &middot; Serie + Teile einzeln</span>
+                <b className="tl-mono big">{fmtEUR(r.stockPlusParts)}</b>
+                <em>{fmtEUR(base)} + Teile gebraucht {fmtEUR(r.partsResale)}</em>
+              </div>
+            </div>
+
+            <div className={"tl-resaverdict " + (Math.abs(r.diff) <= 300 ? "even" : r.diff > 0 ? "partsbetter" : "tunedbetter")}>
+              {recommend}
+              <span className="tl-resadiff">Differenz B \u2212 A: {r.diff >= 0 ? "+" : ""}{fmtEUR(r.diff)}</span>
+            </div>
+
+            <div className="tl-resafoot">
+              Gesamteinsatz (Auto + Teile neu) ca. <b className="tl-mono">{fmtEUR(r.investTotal)}</b>. Tuning ist meist
+              Leidenschaft, keine Geldanlage &ndash; ein Wertverlust ist normal. Werte sind frei einstellbar, weil es eben
+              nur eine Sch&auml;tzung ist.
+            </div>
+          </div>
         </div>
       </div>
     </div>

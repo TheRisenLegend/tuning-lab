@@ -79,3 +79,10 @@ Fehlt ein Bild, greift automatisch der Wikimedia-Hotlink, danach die Zeichnung.
 ## v3
 - Motor-Sound „Rev" (synthetisch, Web Audio – skaliert mit der Leistung)
 - Build-Galerie: kuratierte Beispiel-Builds zum Durchswipen & Laden (Button auf der Startseite)
+
+## v4
+- Motor-Sound deutlich verbessert (Zünd-Puls-Modell mit Zylinderzahl, Ansaug-Rauschen, Resonanzfilter)
+- Echte Sounds möglich: MP3 in `public/sound/` ablegen (siehe `public/sound/README.txt`)
+- CAN-Gauge-Planer stark erweitert: OBD-Decode-Formeln, Bus-Speed, Transceiver, Request/Response-IDs, OBD-Pinout, Fahrzeug-Protokoll-Hinweis (CAN vs. K-Line bei A4 B6 / TT 8N)
+- **Werkzeug-Manager** (Button im Konfigurator): nötiges Spezial-/Standardwerkzeug je Build, Haken-Liste, Leih-/Kauf-Richtwerte, Verleih-Notiz
+- **Wiederverkaufswert-Rechner** (Button im Konfigurator): Schätzung „getunt verkaufen" vs. „Serie + Teile einzeln", einstellbare Annahmen, klar als Schätzung ohne Gewähr
